@@ -45,19 +45,29 @@ class Line:
 		word = ""
 		for i in range(len(self.inputs)):
 			word += self.inputs[i].text
+		self.inputManager.check_line(word)  # Call the check_line method in InputManager
+
 
 	# Called by check_line to color the letters
 	#  for each letter in the word, 0 for green, 1 for yellow, 2 for gray
-	
-		# for i in range(self.n_letters):
-		# 	if check_code[i] == 0:
-		# 		self.inputs[i].background_color = [0, 1, 0, 1]  # Green
-		# 	elif check_code[i] == 1:
-		# 		self.inputs[i].background_color = [1, 1, 0, 1]  # Yellow
-		# 	elif check_code[i] == 2:
-		# 		self.inputs[i].background_color = [1, 0, 0, 1]  # Red
+	def color_line(self, check_code):
 
-		# self.disable_line()
+		if (check_code == "-1"):
+			print ("The word is not in the dictionary")
+			return
+
+		print("check_code", check_code)
+
+		for i in range(self.n_letters):
+			if check_code[i] == '0':
+				self.inputs[i].background_color = [0, 1, 0, 1]  # Green
+				print("green")
+			elif check_code[i] == '1':
+				self.inputs[i].background_color = [1, 1, 0, 1]  # Yellow
+				print("YELLOW")
+			elif check_code[i] == '2':
+				self.inputs[i].background_color = [0.5, 0.5, 0.5, 1]  # Gray
+				print("Gray")
 
 	def enable_line(self):
 		for i in range(self.n_letters):
