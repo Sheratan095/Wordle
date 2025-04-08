@@ -35,7 +35,7 @@ class Dictionary:
 				print("Error: The word \"{}\" is not alphabetic".format(line))
 				return (False)
 
-			self.words.append(line)
+			self.words.append(line.upper()) #force the word to be uppercase to make it case insensitive
 
 		file.close()
 		return (True)
