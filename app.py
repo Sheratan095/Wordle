@@ -7,8 +7,10 @@ from kivy.uix.button import Button
 from InputManager import InputManager
 from Dictionary import Dictionary
 
-Dictionary = Dictionary()
-Dictionary.load_from_file("words.txt")
+dictionary = Dictionary()
+dictionary.load_from_file("words.txt")
+
+target_word = dictionary.get_random_word()
 
 class MyGridLayout(GridLayout):
 
@@ -20,7 +22,7 @@ class MyGridLayout(GridLayout):
 		# 	for j in range(5):
 		# 		self.text_box  = TextInput(multiline = False)
 		# 		self.add_widget(self.text_box)
-		InputManager(6, 5, self)
+		InputManager(6, 5, self, dictionary, target_word)
 		
 class WordleApp(App):
 	def build(self):
