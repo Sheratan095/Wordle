@@ -5,3 +5,4 @@
 [?] Delete mouse click that focus the clicked text_box
 [] Default focus on the first textbox
 [] Moving between tile with arrows?
+[] MIRAO as target and MIRAR as input fail because last R is yellow

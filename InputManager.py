@@ -9,7 +9,7 @@ class InputManager:
 		self.n_letters = n_letters
 		self.layout = layout
 		self.dictionary = dictionary
-		self.target_word = target_word
+		self.target_word = target_word.upper()
 		self.current_line = 0
 
 		self._create_lines()
@@ -54,3 +54,17 @@ class InputManager:
 
 		if (win == True):
 			print("You win")
+		else:
+			# check if the word is not in the dictionary
+			self.lines[self.current_line].disable_line()
+
+			#skip the line
+			self.current_line += 1
+
+			# check if the user has used all the tries
+			if (self.current_line == self.n_lines):
+				print("Game over")
+				return
+
+			# go to the next line
+			self.lines[self.current_line].enable_line()

@@ -11,8 +11,11 @@ dictionary = Dictionary()
 dictionary.load_from_file("test.txt")
 
 # target_word = dictionary.get_random_word()
-target_word = "ARISE"
+
+# target_word = "ARISE"
 #try with ariot
+
+target_word = "MIROC"
 
 class MyGridLayout(GridLayout):
 
