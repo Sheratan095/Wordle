@@ -2,5 +2,5 @@
 [x] Check that all the word has the same length
 [x] Check that the file is .txt
 
-[] Delete mouse click that focus the clicked text_box NOP
+[?] Delete mouse click that focus the clicked text_box
 [] Default focus on the first textbox
