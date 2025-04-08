@@ -56,18 +56,13 @@ class Line:
 			print ("The word is not in the dictionary")
 			return
 
-		print("check_code", check_code)
-
 		for i in range(self.n_letters):
 			if check_code[i] == '0':
 				self.inputs[i].background_color = [0, 1, 0, 1]  # Green
-				print("green")
 			elif check_code[i] == '1':
 				self.inputs[i].background_color = [1, 1, 0, 1]  # Yellow
-				print("YELLOW")
 			elif check_code[i] == '2':
 				self.inputs[i].background_color = [0.5, 0.5, 0.5, 1]  # Gray
-				print("Gray")
 
 	def enable_line(self):
 		for i in range(self.n_letters):
