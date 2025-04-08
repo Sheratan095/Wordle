@@ -55,6 +55,17 @@ class Dictionary:
 
 		return (chosen_word)
 
+	def word_exists(self, word):
+
+		# check if the list of words is empty
+		if (self.words == []):
+			raise Exception("Error: before calling this function, you need to load the words from a file")
+
+		if (word in self.words):
+			return (True)
+		else:
+			return (False)
+
 	# _ in front of the function name means that this function is private
 	def _generate_random_word(self):
 
