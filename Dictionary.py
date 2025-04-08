@@ -2,7 +2,9 @@ import random
 
 class Dictionary:
 
-	def __init__(self):
+	# the defualt length of the word is 5
+	def __init__(self, words_length = 5):
+		self.words_length = words_length
 		self.words = [] #init an empty list of words
 		self.previous_word = "" #init the previous word to None
 
@@ -15,7 +17,14 @@ class Dictionary:
 			return (None)
 
 		for line in file:
-			self.words.append(line.strip())
+
+			# remove the spaces and new lines from the word
+			line = line.strip()
+
+			if (len(line) != self.words_length):
+				raise Exception("Error: The word \"{}\" is not of length ({})".format(line, self.words_length))
+
+			self.words.append(line)
 
 		file.close()
 
