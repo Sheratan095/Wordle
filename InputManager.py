@@ -27,33 +27,20 @@ class InputManager:
 
 	def check_line(self, word):
 
-		print("target", self.target_word)
-		print("word", word)
-
 		# check if the word is in the dictionary
 		if (self.dictionary.word_exists(word) == False):
-			self.lines[self.current_line].color_line("-1")  # Color the line red
+			self.lines[self.current_line].color_line("-1")  # word not valid
 			return
 
-		win = True
-		check_code = ""
-		for i in range(self.n_letters):
-			# match = 0 GREEN
-			if (word[i] == self.target_word[i]):
-				check_code += '0'
-			#not exist = 2 GREY
-			elif (word[i] not in self.target_word):
-				win = False
-				check_code += '2'
-			#exist = 1 YELLOW
-			elif (word[i] in self.target_word):
-				win = False
-				check_code += '1'
+		# valid word
 
-		print("check_code", check_code)
-		self.lines[self.current_line].color_line(check_code)
+		# generate control code
+		control_code = self.generate_control_code(word)
+		
+		self.lines[self.current_line].color_line(control_code)
 
-		if (win == True):
+		#check for the win
+		if (control_code.count(control_code[0]) == len(control_code)):
 			print("You win")
 		else:
 			# check if the word is not in the dictionary
@@ -69,3 +56,33 @@ class InputManager:
 
 			# go to the next line
 			self.lines[self.current_line].enable_line()
+	
+	def generate_control_code(self, word):
+
+		control_code = ""
+
+		# contains the letters from the target word that aren't in input
+		not_found = []
+
+		for i in range(self.n_letters):
+			# match = 0 GREEN
+			if (self.target_word[i] == word[i]):
+				control_code += '0'
+			else:
+				control_code += '2' # not match = 2 YELLOW
+				not_found.append(self.target_word[i])
+
+		for i in range(self.n_letters):
+
+			if (control_code[i] == '2'):
+
+				try:
+					index = not_found.index(word[i])
+				except ValueError:
+					index = -1
+
+				if (index != -1):
+					control_code = control_code[:i] + '1' + control_code[i+1:]
+					not_found.remove(not_found[index])
+
+		return (control_code)
