@@ -4,3 +4,4 @@
 
 [?] Delete mouse click that focus the clicked text_box
 [] Default focus on the first textbox
+[] Moving between tile with arrows?

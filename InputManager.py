@@ -33,7 +33,7 @@ class Line:
 
 		for i in range(n_letters):
 			# Create a TextInput widget for each letter, disabled by default
-			text_box = TextInput(hint_text=f"Type here {i}", multiline=False, disabled=True)
+			text_box = TextInput(hint_text=f"Type here {i}", multiline=False, disabled=True, focus=False)
 			text_box.bind(text=partial(self._on_text, i))  # Pass the index explicitly
 
 			self.layout.add_widget(text_box)
@@ -63,6 +63,9 @@ class Line:
 
 
 	def enable_line(self):
+
 		#enable_line
 		for i in range(self.n_letters):
 			self.inputs[i].disabled = False
+
+		self.inputs[0].focus = True  # Set focus to the first input
