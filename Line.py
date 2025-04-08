@@ -3,16 +3,18 @@ from functools import partial
 
 class Line:
 
-	def __init__(self, layout, n_letters):
+	def __init__(self, layout, n_letters, inputManager):
 		self.layout = layout
 		self.current_idx = 0
 		self.n_letters = n_letters
 		self.inputs = []
+		self.inputManager = inputManager
 
 		for i in range(n_letters):
 			# Create a TextInput widget for each letter, disabled by default
 			text_box = TextInput(hint_text=f"Type here {i}", multiline=False, disabled=True, focus=False)
 			text_box.bind(text=partial(self._on_text, i))  # Pass the index explicitly
+			text_box.bind(on_text_validate=partial(self._on_enter, i))  # Pass the index explicitly
 
 			self.layout.add_widget(text_box)
 			self.inputs.append(text_box)  # Assign the TextInput to the list
@@ -39,11 +41,30 @@ class Line:
 		if (len(value) > 1):
 			instance.text = value[:1]
 
+	def _on_enter(self, instance, value):
+		word = ""
+		for i in range(len(self.inputs)):
+			word += self.inputs[i].text
+
+	# Called by check_line to color the letters
+	#  for each letter in the word, 0 for green, 1 for yellow, 2 for gray
+	
+		# for i in range(self.n_letters):
+		# 	if check_code[i] == 0:
+		# 		self.inputs[i].background_color = [0, 1, 0, 1]  # Green
+		# 	elif check_code[i] == 1:
+		# 		self.inputs[i].background_color = [1, 1, 0, 1]  # Yellow
+		# 	elif check_code[i] == 2:
+		# 		self.inputs[i].background_color = [1, 0, 0, 1]  # Red
+
+		# self.disable_line()
 
 	def enable_line(self):
-
-		#enable_line
 		for i in range(self.n_letters):
 			self.inputs[i].disabled = False
 
 		self.inputs[0].focus = True  # Set focus to the first input
+	
+	def disable_line(self):
+		for i in range(self.n_letters):
+			self.inputs[i].disabled = True

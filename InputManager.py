@@ -8,6 +8,9 @@ class InputManager:
 		self.n_lines = n_lines
 		self.n_letters = n_letters
 		self.layout = layout
+		self.dictionary = dictionary
+		self.target_word = target_word
+		self.current_line = 0
 
 		self._create_lines()
 
@@ -19,4 +22,5 @@ class InputManager:
 	#init the lines
 	def _create_lines(self):
 		for i in range(self.n_lines):  # Loop through all indexes
-			self.lines[i] = Line(self.layout, self.n_letters)  # Now it won't go out of range
+			line = Line(self.layout, self.n_letters, self)
+			self.lines[i] = line  # Store the Line instance
