@@ -1,3 +1,3 @@
-[] Check if the list is empty before than generate a randome word
+[x] Check if the list is empty before than generate a randome word
 [x] Check that all the word has the same length
-[] Check that the file is .txt
+[x] Check that the file is .txt

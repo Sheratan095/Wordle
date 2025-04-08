@@ -40,17 +40,27 @@ class Dictionary:
 	# the word returned should not be the same as the previous one
 	def get_random_word(self):
 
+		# check if the list of words is empty
+		if (self.words == []):
+			raise Exception("Error: before calling this function, you need to load the words from a file")
+
 		if (self.previous_word == ""):
-			chosen_word = self.generate_random_word()
+			chosen_word = self._generate_random_word()
 		else:
 			chosen_word = ""
 			while ((chosen_word == "") or (chosen_word == self.previous_word)):
-				chosen_word = self.generate_random_word()
+				chosen_word = self._generate_random_word()
 
 		self.previous_word = chosen_word
 
 		return (chosen_word)
 
-	def generate_random_word(self):
+	# _ in front of the function name means that this function is private
+	def _generate_random_word(self):
+
+		# check if the list of words is empty
+		if (self.words == []):
+			raise Exception("Error: before calling this function, you need to load the words from a file")
+
 		index = random.randint(0, len(self.words) - 1)
 		return (self.words[index])
