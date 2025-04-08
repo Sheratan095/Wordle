@@ -38,9 +38,19 @@ class Line:
 	def on_text(self, idx, instance, value):
 
 		if (len(value) == 1):  # Check if the current text box is filled
+
+			#check if the inserted letter is an alphabetic character
+			if (not value.isalpha()):
+				instance.text = ""
+				return
+
+			# force the letter to be uppercase
+			instance.text = instance.text.upper()
+
 			self.current_idx = idx + 1
 			if self.current_idx < self.n_letters:  # Ensure we don't go out of bounds
 				self.inputs[self.current_idx].focus = True
 
+		# it limits the number of letters to 1 truncate the string when the user types more than 1 letter
 		if (len(value) > 1):
 			instance.text = value[:1] 
