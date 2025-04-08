@@ -1,3 +1,6 @@
+from kivy.config import Config
+Config.set('graphics', 'resizable', '0')
+
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
 from kivy.uix.boxlayout import BoxLayout
@@ -25,7 +28,7 @@ class MainMenuScreen(Screen):
 class GameScreen(Screen):
 	def __init__(self, **kwargs):
 		super().__init__(**kwargs)
-		grid = MyGridLayout(size_hint=(1, 1), pos_hint={'center_x': 0.5, 'center_y': 0.5})
+		grid = MyGridLayout()
 		self.add_widget(grid)
 
 class WordleApp(App):
