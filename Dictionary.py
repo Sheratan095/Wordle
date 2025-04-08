@@ -10,6 +10,7 @@ class Dictionary:
 
 	# populate the list of words from a specified file
 	def load_from_file(self, file_name):
+
 		try:
 			file = open(file_name, "r")
 		except Exception as ex:
