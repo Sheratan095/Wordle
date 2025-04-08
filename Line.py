@@ -44,6 +44,9 @@ class Line:
 	def _on_enter(self, instance, value):
 		word = ""
 		for i in range(len(self.inputs)):
+			if (len(self.inputs[i].text) == 0):
+				print ("Error, not enough letters")
+				return
 			word += self.inputs[i].text
 		self.inputManager.check_line(word)  # Call the check_line method in InputManager
 
