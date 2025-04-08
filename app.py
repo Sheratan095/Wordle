@@ -10,12 +10,11 @@ class MyGridLayout(GridLayout):
 		super(MyGridLayout, self).__init__(**kwargs)
 		self.cols = 5
 
-		for i in range(7):
-			for j in range(6):
+		for i in range(6):
+			for j in range(5):
 				self.text_box  = TextInput(multiline = False)
 				self.add_widget(self.text_box)
 		
-
 class WordleApp(App):
 	def build(self):
 		return MyGridLayout()
