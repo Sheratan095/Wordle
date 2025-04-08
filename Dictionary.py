@@ -30,8 +30,12 @@ class Dictionary:
 			if (len(line) != self.words_length):
 				print("Error: The word \"{}\" is not of length ({})".format(line, self.words_length))
 				return (False)
+			# check that the word is alphabetic
+			if (not line.isalpha()):
+				print("Error: The word \"{}\" is not alphabetic".format(line))
+				return (False)
 
-			self.words.append(line)
+			self.words.append(line.upper()) #force the word to be uppercase to make it case insensitive
 
 		file.close()
 		return (True)
