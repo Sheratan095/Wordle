@@ -1,0 +1,1 @@
+[] Check if the list is empty before than generate a randome word
