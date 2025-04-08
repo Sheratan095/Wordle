@@ -5,6 +5,10 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
 from InputManager import InputManager
+from Dictionary import Dictionary
+
+Dictionary = Dictionary()
+Dictionary.load_from_file("words.txt")
 
 class MyGridLayout(GridLayout):
 
