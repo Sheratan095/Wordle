@@ -15,7 +15,7 @@ dictionary.load_from_file("test.txt")
 # target_word = "ARISE"
 #try with ariot
 
-target_word = "MIROC"
+target_word = "MIRAO"
 
 class MyGridLayout(GridLayout):
 

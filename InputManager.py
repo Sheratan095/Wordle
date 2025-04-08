@@ -38,17 +38,18 @@ class InputManager:
 		win = True
 		check_code = ""
 		for i in range(self.n_letters):
-			# match = 0
+			# match = 0 GREEN
 			if (word[i] == self.target_word[i]):
 				check_code += '0'
-			#exist = 1
+			#not exist = 2 GREY
+			elif (word[i] not in self.target_word):
+				win = False
+				check_code += '2'
+			#exist = 1 YELLOW
 			elif (word[i] in self.target_word):
 				win = False
 				check_code += '1'
-			#not exist = 2
-			else:
-				win = False
-				check_code += '2'
+
 		print("check_code", check_code)
 		self.lines[self.current_line].color_line(check_code)
 
