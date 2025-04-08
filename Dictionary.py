@@ -11,23 +11,30 @@ class Dictionary:
 	# populate the list of words from a specified file
 	def load_from_file(self, file_name):
 
+		if (file_name.endswith(".txt") == False):
+			print("Error: The file is not a text file")
+			return (False)
+
 		try:
 			file = open(file_name, "r")
 		except Exception as ex:
 			print("Error: Could not open file")
-			return (None)
+			return (False)
 
 		for line in file:
 
 			# remove the spaces and new lines from the word
 			line = line.strip()
 
+			# check the length of the word
 			if (len(line) != self.words_length):
-				raise Exception("Error: The word \"{}\" is not of length ({})".format(line, self.words_length))
+				print("Error: The word \"{}\" is not of length ({})".format(line, self.words_length))
+				return (False)
 
 			self.words.append(line)
 
 		file.close()
+		return (True)
 
 	#return a random word from the list of words
 	# the word returned should not be the same as the previous one
