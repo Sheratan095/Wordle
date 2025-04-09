@@ -42,7 +42,7 @@ class Line:
 	# Callback function: function passed as an argument to another function
 	def _on_text(self, idx, instance, value):
 
-		if self.popupOpen:
+		if (self.popupOpen):
 			instance.text = ""
 			return
 
@@ -57,10 +57,10 @@ class Line:
 			instance.text = instance.text.upper()
 
 			self.current_idx = idx + 1
-			if self.current_idx < self.n_letters:  # Ensure we don't go out of bounds
+			if (self.current_idx < self.n_letters):  # Ensure we don't go out of bounds
 				self.inputs[self.current_idx].focus = True
 			else:
-				self.current_idx = idx - 1
+				self.current_idx = self.current_idx - 1
 
 		# it limits the number of letters to 1 truncate the string when the user types more than 1 letter
 		if (len(value) > 1):
@@ -141,12 +141,16 @@ class Line:
 
 		if (keycode[1] == 'backspace' and self.popupOpen == False):  # Check if the key pressed is backspace
 
-			if len(instance.text) == 0 and idx > 0:  # If the current box is empty, move focus back
-				self.current_idx = idx - 1
-				self.inputs[self.current_idx].focus = True
-				self.inputs[self.current_idx].text = ""  # Clear the previous box
+			print(f"'{self.inputs[self.current_idx].text}' {self.current_idx} {idx}")
+
+			if (len(self.inputs[self.current_idx].text) == 0):  # If the current box is empty, move focus back
+
+				if (self.current_idx > 0):
+					self.current_idx = idx - 1
+					self.inputs[self.current_idx].focus = True
+					self.inputs[self.current_idx].text = ""  # Clear the previous box
 			else:
-				instance.text = ""
+				self.inputs[self.current_idx].text = ""
 
 			return (True)  # Intercept the backspace action
 
