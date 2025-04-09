@@ -19,7 +19,7 @@ class Line:
 
 			 # Use a wrapper function to handle key_down events
 			def key_down_wrapper(window, keycode, text, modifiers, idx=i):
-				return self._keyboard_on_key_down(idx, text_box, window, keycode, text, modifiers)
+				return (self._keyboard_on_key_down(idx, text_box, window, keycode, text, modifiers))
 
 			text_box.keyboard_on_key_down = key_down_wrapper  # Assign the wrapper function
 
@@ -54,7 +54,7 @@ class Line:
 			instance.text = value[1]
 
 	# Compose the word from the letters in the line
-	def get_current_word(self):
+	def _get_current_word(self):
 		word = ""
 		for i in range(len(self.inputs)):
 			if (len(self.inputs[i].text) == 0):
@@ -88,7 +88,7 @@ class Line:
 			self.inputs[i].disabled = False
 			self.inputs[i].focus = False
 
-		Clock.schedule_once(self.set_focus, 0.1)
+		Clock.schedule_once(self._set_focus, 0.1)
 
 	#Clock.schedule_once(self.set_focus, 0.1) because Kivy's UI updates happen asynchronously.
 	# if self.inputs[0].focus = True is setted immediately after enabling the inputs, Kivy might not yet have completed updating the UI.
@@ -96,7 +96,7 @@ class Line:
 	#The UI has fully processed enabling the inputs.
 	#The first input field can properly receive focus.
 
-	def set_focus(self, dt):
+	def _set_focus(self, dt):
 		self.inputs[0].focus = True
 	
 	def disable_line(self):
@@ -130,7 +130,7 @@ class Line:
 
 		if (keycode[1] == 'enter'):  # Check if the key pressed is enter
 
-			word = self.get_current_word()
+			word = self._get_current_word()
 
 			if (word == None):
 				popup = Popup(title='Warning', content=Label(text='Input five letters!'), size_hint=(.5, .5))
