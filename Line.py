@@ -1,6 +1,8 @@
 from kivy.uix.textinput import TextInput
 from functools import partial
 from kivy.clock import Clock
+from kivy.uix.popup import Popup
+from  kivy.uix.label import Label
 
 class Line:
 
@@ -52,6 +54,8 @@ class Line:
 
 			if (len(self.inputs[i].text) == 0):
 				print("Empty input at ", i)
+				popup = Popup(title='Warning', content=Label(text='Input five letters!'), size_hint=(.5, .5))
+				popup.open()
 				# restote the focus to the first empty input
 				# print ("Error, not enough letters")
 				self.inputs[i].focus = True
@@ -66,7 +70,9 @@ class Line:
 	def color_line(self, check_code):
 
 		if (check_code == "-1"):
+			popup = Popup(title='Warning', content=Label(text='Invalid word!'), size_hint=(.5, .5))
 			print ("The word is not in the dictionary")
+			popup.open()
 			return
 
 		for i in range(self.n_letters):
