@@ -14,9 +14,6 @@ class InputManager:
 		self.current_line = 0
 		self._create_lines()
 
-		# to do eliminate
-		self.start_game()
-
 	def start_game(self):
 		for i in range(self.n_lines):
 			self.lines[i].clear_line()

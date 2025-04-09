@@ -28,8 +28,6 @@ class MainMenuScreen(Screen):
 		self.manager.current = "game" # Set the current screen of the ScreenManager to "game" (this screen should exist in the ScreenManager).s
 
 
-
-
 class GameScreen(Screen):
 	def __init__(self, **kwargs):
 		super().__init__(**kwargs)
@@ -37,7 +35,7 @@ class GameScreen(Screen):
 		self.add_widget(self.grid)
 
 	def start_game(self):
-		# self.grid.start_game()
+		self.grid.start_game()
 		print("starting")
 
 
@@ -76,11 +74,11 @@ class DefeatScreen(Screen):
 class WordleApp(App):
 	def build(self):
 		sm = ScreenManager(transition=FadeTransition()) # Create a ScreenManager with a fade transition effect between screens.
-		sm.add_widget(MainMenuScreen(name =' menu')) # Add the MainMenuScreen to the ScreenManager and assign it the name 'menu'.
+		sm.add_widget(MainMenuScreen(name ='menu')) # Add the MainMenuScreen to the ScreenManager and assign it the name 'menu'.
 		gamescreen = GameScreen(name = 'game')
 		sm.add_widget(gamescreen)
 		sm.add_widget(VictoryScreen(gamescreen, name = 'victory'))
-		sm.add_widget(VictoryScreen(gamescreen, name = 'defeat'))
+		sm.add_widget(DefeatScreen(gamescreen, name = 'defeat'))
 		return sm
 
 
