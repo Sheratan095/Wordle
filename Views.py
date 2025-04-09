@@ -55,9 +55,9 @@ class GameScreen(Screen):
 
 		self.dictionary = dictionary
 
-		Window.bind(on_pre_enter=self.on_pre_enter)
+		Window.bind(on_pre_enter=self._on_pre_enter)
 
-	def on_pre_enter(self, *args):
+	def _on_pre_enter(self, *args):
 		self._start_game()
 
 	def _start_game(self):
@@ -65,7 +65,7 @@ class GameScreen(Screen):
 		print("target word: ", self.target_word )
 
 		self.grid.start_game(self.target_word)
-		Window.unbind(on_pre_enter=self.on_pre_enter)
+		Window.unbind(on_pre_enter=self._on_pre_enter)
 
 
 #------------------------------------------SECONDARY SCREENS------------------------------------------#
