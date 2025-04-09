@@ -14,6 +14,13 @@ class Line:
 		for i in range(n_letters):
 			# Create a TextInput widget for each letter, disabled by default
 			text_box = TextInput(multiline=False, disabled=True, focus=False, halign="center", font_size="24sp", size_hint = (None, None), width=60, height=60, padding_y = [15, 15])
+			
+			 # Use a wrapper function to handle key_down events
+			def key_down_wrapper(window, keycode, text, modifiers, idx=i):
+				return self._keyboard_on_key_down(idx, text_box, window, keycode, text, modifiers)
+
+			text_box.keyboard_on_key_down = key_down_wrapper  # Assign the wrapper function
+
 			text_box.bind(text=partial(self._on_text, i))  # Pass the index explicitly
 			text_box.bind(on_text_validate=partial(self._on_enter, i))  # Pass the index explicitly
 
@@ -42,24 +49,18 @@ class Line:
 		if (len(value) > 1):
 			instance.text = value[:1]
 
-	def _on_enter(self, instance, value):
-		self.get_current_word()
-	
+	# Compose the word from the letters in the line
 	def get_current_word(self):
 		word = ""
-		print("Checking the word")
 		for i in range(len(self.inputs)):
 
 			if (len(self.inputs[i].text) == 0):
-				print("Empty input at ", i)
-				# restote the focus to the first empty input
-				# print ("Error, not enough letters")
 				self.inputs[i].focus = True
-				return
-	
-			word += self.inputs[i].text
-		self.inputManager.check_line(word)  # Call the check_line method in InputManager
+				return (None)
 
+			word += self.inputs[i].text
+
+		return (word.upper())
 
 	# Called by check_line to color the letters
 	#  for each letter in the word, 0 for green, 1 for yellow, 2 for gray
@@ -104,3 +105,31 @@ class Line:
 			self.inputs[i].background_color = [1, 1, 1, 1]
 			self.inputs[i].focus = False  # Explicitly reset focus
 			self.disable_line()
+
+	def _keyboard_on_key_down(self, idx, instance, window, keycode, text, modifiers):
+
+		if keycode[1] == 'backspace':  # Check if the key pressed is backspace
+
+			print("Backspace pressed")
+
+			# if len(instance.text) == 0 and idx > 0:  # If the current box is empty, move focus back
+			# 	self.current_idx = idx - 1
+			# 	self.inputs[self.current_idx].focus = True
+			# 	self.inputs[self.current_idx].text = ""  # Clear the previous box
+
+			return (True)  # Intercept the backspace action
+
+
+		if keycode[1] == 'enter':  # Check if the key pressed is enter
+
+			print("Enter pressed")
+
+			self.get_current_word()
+			word = self.inputManager.check_line(word)  # Call the check_line method in InputManager
+
+			if (word == None):
+				print("The word is not complete")
+
+			return (True)  # Intercept the enter action
+
+		return (False)  # Allow other keys to behave normally
