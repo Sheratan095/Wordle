@@ -1,6 +1,8 @@
 from kivy.uix.textinput import TextInput
 from functools import partial
 from kivy.clock import Clock
+from kivy.uix.popup import Popup
+from  kivy.uix.label import Label
 
 class Line:
 
@@ -22,7 +24,6 @@ class Line:
 			text_box.keyboard_on_key_down = key_down_wrapper  # Assign the wrapper function
 
 			text_box.bind(text=partial(self._on_text, i))  # Pass the index explicitly
-			text_box.bind(on_text_validate=partial(self._on_enter, i))  # Pass the index explicitly
 
 			self.layout.add_widget(text_box)
 			self.inputs.append(text_box)  # Assign the TextInput to the list
@@ -67,7 +68,9 @@ class Line:
 	def color_line(self, check_code):
 
 		if (check_code == "-1"):
+			popup = Popup(title='Warning', content=Label(text='Invalid word!'), size_hint=(.5, .5))
 			print ("The word is not in the dictionary")
+			popup.open()
 			return
 
 		for i in range(self.n_letters):
@@ -124,11 +127,13 @@ class Line:
 
 			print("Enter pressed")
 
-			self.get_current_word()
-			word = self.inputManager.check_line(word)  # Call the check_line method in InputManager
+			word = self.get_current_word()
 
 			if (word == None):
-				print("The word is not complete")
+				popup = Popup(title='Warning', content=Label(text='Input five letters!'), size_hint=(.5, .5))
+				popup.open()
+			else:
+				self.inputManager.check_line(word)  # Call the check_line method in InputManager
 
 			return (True)  # Intercept the enter action
 
