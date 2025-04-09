@@ -40,7 +40,7 @@ class Line:
 	# Callback function: function passed as an argument to another function
 	def _on_text(self, idx, instance, value):
 
-		if self.popupOpen:
+		if (self.popupOpen):
 			instance.text = ""
 			return
 
@@ -55,7 +55,7 @@ class Line:
 			instance.text = instance.text.upper()
 
 			self.current_idx = idx + 1
-			if self.current_idx < self.n_letters:  # Ensure we don't go out of bounds
+			if (self.current_idx < self.n_letters):  # Ensure we don't go out of bounds
 				self.inputs[self.current_idx].focus = True
 			else:
 				self.current_idx = self.current_idx - 1
