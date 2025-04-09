@@ -29,21 +29,18 @@ class MainMenuScreen(Screen):
 	
 	def _on_key_down(self, window, key, scancode, codepoint, modifiers):
 		if (key == 13):
-			self.start_game()
+			self._start_game()
 	
 	def _on_btn_press(self, instance):
-		self.start_game()
+		self._start_game()
 
 	def set_gamescreen(self, gamescreen):
 		self.gamescreen = gamescreen
 	
-	def start_game(self):
+	def _start_game(self):
 
 		# Set the current screen of the ScreenManager to "game" (this screen should exist in the ScreenManager)
 		self.manager.current = "game"
-
-		# Call the start_game method of the GameScreen instance to initialize the game.
-		# self.gamescreen.start_game()
 
 		Window.unbind(on_key_down=self._on_key_down)
 
