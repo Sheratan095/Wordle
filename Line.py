@@ -12,7 +12,7 @@ class Line:
 
 		for i in range(n_letters):
 			# Create a TextInput widget for each letter, disabled by default
-			text_box = TextInput(hint_text=f"Type here {i}", multiline=False, disabled=True, focus=False)
+			text_box = TextInput(multiline=False, disabled=True, focus=False, halign="center", font_size="24sp", size_hint = (None, None), width=60, height=60, padding_y = [15, 15])
 			text_box.bind(text=partial(self._on_text, i))  # Pass the index explicitly
 			text_box.bind(on_text_validate=partial(self._on_enter, i))  # Pass the index explicitly
 

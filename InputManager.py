@@ -1,3 +1,4 @@
+from kivy.app import App
 from Line import Line
 
 class InputManager:
@@ -42,6 +43,7 @@ class InputManager:
 		#check for the win
 		if (control_code.count(control_code[0]) == len(control_code)):
 			print("You win")
+			App.get_running_app().root.current = 'victory'
 		else:
 			# check if the word is not in the dictionary
 			self.lines[self.current_line].disable_line()
@@ -52,6 +54,7 @@ class InputManager:
 			# check if the user has used all the tries
 			if (self.current_line == self.n_lines):
 				print("Game over")
+				App.get_running_app().root.current = 'defeat'
 				return
 
 			# go to the next line

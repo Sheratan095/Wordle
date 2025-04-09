@@ -22,7 +22,8 @@ class MyGridLayout(GridLayout):
 	def __init__(self, **kwargs):
 		super(MyGridLayout, self).__init__(**kwargs)
 		self.cols = 5
-
+		self.padding = [10, 10, 10, 10]
+		self.spacing = [5, 5]
 		# for i in range(6):
 		# 	for j in range(5):
 		# 		self.text_box  = TextInput(multiline = False)
