@@ -2,7 +2,8 @@ from kivy.uix.textinput import TextInput
 from functools import partial
 from kivy.clock import Clock
 from kivy.uix.popup import Popup
-from  kivy.uix.label import Label
+from kivy.uix.label import Label
+from kivy.core.window import Window
 
 class Line:
 
@@ -55,6 +56,14 @@ class Line:
 			if (len(self.inputs[i].text) == 0):
 				print("Empty input at ", i)
 				popup = Popup(title='Warning', content=Label(text='Input five letters!'), size_hint=(.5, .5))
+				
+				def on_key_down(self, window, key, scancode, codepoint, modifiers):
+						if key == 13:
+							popup.dismiss()
+							return True
+
+				Window.bind(on_key_down=on_key_down)
+				popup.bind(on_dismiss=lambda instance: Window.unbind(on_key_down=on_key_down))
 				popup.open()
 				# restote the focus to the first empty input
 				# print ("Error, not enough letters")
@@ -71,8 +80,15 @@ class Line:
 
 		if (check_code == "-1"):
 			popup = Popup(title='Warning', content=Label(text='Invalid word!'), size_hint=(.5, .5))
-			print ("The word is not in the dictionary")
+
+			def on_key_down(self, window, key, scancode, codepoint, modifiers):
+				if key == 13:
+					popup.dismiss()
+
+			Window.bind(on_key_down=on_key_down)
+			popup.bind(on_dismiss=lambda instance: Window.unbind(on_key_down=on_key_down))
 			popup.open()
+			print ("The word is not in the dictionary")
 			return
 
 		for i in range(self.n_letters):

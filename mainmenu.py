@@ -9,6 +9,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.button import Button
+from kivy.core.window import Window
 from Dictionary import Dictionary
 
 from app import MyGridLayout
@@ -25,13 +26,19 @@ class MainMenuScreen(Screen):
 		layout.add_widget(title)
 		layout.add_widget(btn)
 		self.add_widget(layout)
+		Window.bind(on_key_down=self.on_key_down)
 	
+	def on_key_down(self, window, key, scancode, codepoint, modifiers):
+		if key == 13:
+			self.start_game(None)
+
 	def set_gamescreen(self, gamescreen):
 		self.gamescreen = gamescreen
 	
 	def start_game(self, instance):
 		self.manager.current = "game" # Set the current screen of the ScreenManager to "game" (this screen should exist in the ScreenManager).s
 		self.gamescreen.start_game() # Call the start_game method of the GameScreen instance to initialize the game.
+		Window.unbind(on_key_down=self.on_key_down)
 
 class GameScreen(Screen):
 	def __init__(self, dictionary, **kwargs):
