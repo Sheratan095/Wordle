@@ -12,12 +12,14 @@ class InputManager:
 		self.dictionary = dictionary
 		self.target_word = target_word.upper()
 		self.current_line = 0
-
 		self._create_lines()
 
+		# to do eliminate
 		self.start_game()
 
 	def start_game(self):
+		for i in range(self.n_lines):
+			self.lines[i].clear_line()
 		self.lines[0].enable_line()  # Enable the first line for input
 
 	#init the lines
