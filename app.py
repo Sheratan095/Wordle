@@ -5,21 +5,10 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
 from InputManager import InputManager
-from Dictionary import Dictionary
-
-dictionary = Dictionary()
-dictionary.load_from_file("test.txt")
-
-# target_word = dictionary.get_random_word()
-
-# target_word = "ARISE"
-#try with ariot
-
-target_word = "MIRCO"
 
 class MyGridLayout(GridLayout):
 
-	def __init__(self, **kwargs):
+	def __init__(self, dictionary, **kwargs):
 		super(MyGridLayout, self).__init__(**kwargs)
 		self.cols = 5
 		self.padding = [10, 10, 10, 10]
@@ -28,10 +17,10 @@ class MyGridLayout(GridLayout):
 		# 	for j in range(5):
 		# 		self.text_box  = TextInput(multiline = False)
 		# 		self.add_widget(self.text_box)
-		self.inputManager = InputManager(6, 5, self, dictionary, target_word)
+		self.inputManager = InputManager(6, 5, self, dictionary)
 	
-	def start_game(self):
-		self.inputManager.start_game()
+	def start_game(self, target_word):
+		self.inputManager.start_game(target_word)
 		
 class WordleApp(App):
 	def build(self):

@@ -8,6 +8,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.button import Button
+from Dictionary import Dictionary
 
 from app import MyGridLayout
 
@@ -32,13 +33,17 @@ class MainMenuScreen(Screen):
 		self.gamescreen.start_game() # Call the start_game method of the GameScreen instance to initialize the game.
 
 class GameScreen(Screen):
-	def __init__(self, **kwargs):
+	def __init__(self, dictionary, **kwargs):
 		super().__init__(**kwargs)
-		self.grid = MyGridLayout()
+		self.grid = MyGridLayout(dictionary)
 		self.add_widget(self.grid)
 
+		self.dictionary = dictionary
+
 	def start_game(self):
-		self.grid.start_game()
+		self.target_word = self.dictionary.get_random_word()
+		print("target word: ", self.target_word )
+		self.grid.start_game(self.target_word)
 
 
 class VictoryScreen(Screen):
@@ -74,13 +79,18 @@ class DefeatScreen(Screen):
 		self.gamescreen.start_game()
 
 class WordleApp(App):
-	def build(self):
+
+	def build(self, dictionary_file = "test.txt"):
+		# load the dictionary
+		dictionary = Dictionary()
+		dictionary.load_from_file(dictionary_file)
+
 		sm = ScreenManager(transition=FadeTransition()) # Create a ScreenManager with a fade transition effect between screens.
 
 		mainMenù = MainMenuScreen(name ='menu')
 		sm.add_widget(mainMenù) # Add the MainMenuScreen to the ScreenManager and assign it the name 'menu'.
 
-		gamescreen = GameScreen(name = 'game')
+		gamescreen = GameScreen(dictionary, name = 'game')
 		sm.add_widget(gamescreen)
 
 		mainMenù.set_gamescreen(gamescreen)

@@ -5,20 +5,21 @@ from kivy.clock import Clock
 class InputManager:
 
 	#n_lines is the number of tries
-	def __init__(self, n_lines, n_letters, layout, dictionary, target_word):
+	def __init__(self, n_lines, n_letters, layout, dictionary):
 		self.lines = [None] * n_lines  # Creates a list with n_lines empty slots
 		self.n_lines = n_lines
 		self.n_letters = n_letters
 		self.layout = layout
-		self.dictionary = dictionary
-		self.target_word = target_word.upper()
 		self.current_line = 0
 		self._create_lines()
+		self.dictionary = dictionary
 
-	def start_game(self):
+	def start_game(self, target_word):
+		self.target_word = target_word.upper()
 		for i in range(self.n_lines):
 			self.lines[i].clear_line()  # Clear all lines and reset focus
 		self.current_line = 0
+		self.lines[0].enable_line()  # Enable the first line
 		Clock.schedule_once(lambda dt: self.lines[0].enable_line(), 0.1)  # Enable the first line with a slight delay
 
 	#init the lines
