@@ -43,7 +43,7 @@ class MainMenuScreen(Screen):
 		self.manager.current = "game"
 
 		# Call the start_game method of the GameScreen instance to initialize the game.
-		self.gamescreen.start_game()
+		# self.gamescreen.start_game()
 
 		Window.unbind(on_key_down=self._on_key_down)
 
@@ -58,17 +58,24 @@ class GameScreen(Screen):
 
 		self.dictionary = dictionary
 
+		Window.bind(on_pre_enter=self.on_pre_enter)
+
+	def on_pre_enter(self, *args):
+		self.start_game()
+
 	def start_game(self):
 		self.target_word = self.dictionary.get_random_word()
 		print("target word: ", self.target_word )
 
 		self.grid.start_game(self.target_word)
+		Window.unbind(on_enter=self.on_enter)
+
 
 #------------------------------------------SECONDARY SCREENS------------------------------------------#
 
 class VictoryScreen(Screen):
 
-	def __init__(self, gamescreen, **kwargs):
+	def __init__(self, **kwargs):
 		super().__init__(**kwargs)
 
 		layout = BoxLayout(orientation = 'vertical', spacing = 20, padding = 50)
@@ -81,8 +88,6 @@ class VictoryScreen(Screen):
 		layout.add_widget(btn)
 
 		self.add_widget(layout)
-
-		self.gamescreen = gamescreen
 
 		# Ensure that the key binding happens only when the victory screen is diplayed
 		# bind them on enter and unbind them on leave
@@ -104,12 +109,11 @@ class VictoryScreen(Screen):
 	def start_game(self, instance):
 		# Set the current screen of the ScreenManager to "game" (this screen should exist in the ScreenManager)
 		self.manager.current = "game" 
-		self.gamescreen.start_game()
 
 
 class DefeatScreen(Screen):
 
-	def __init__(self,  gamescreen, **kwargs):
+	def __init__(self, **kwargs):
 		super().__init__(**kwargs)
 
 		layout = BoxLayout(orientation = 'vertical', spacing = 20, padding = 50)
@@ -122,8 +126,6 @@ class DefeatScreen(Screen):
 		layout.add_widget(btn)
 
 		self.add_widget(layout)
-
-		self.gamescreen = gamescreen
 
 		# Ensure that the key binding happens only when the victory screen is diplayed
 		# bind them on enter and unbind them on leave
@@ -144,4 +146,3 @@ class DefeatScreen(Screen):
 
 	def _restart_game(self, instance):
 		self.manager.current = "game"
-		self.gamescreen.start_game()

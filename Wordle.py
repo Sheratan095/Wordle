@@ -30,8 +30,8 @@ class WordleApp(App):
 
 		mainMenù.set_gamescreen(gamescreen)
 
-		sm.add_widget(VictoryScreen(gamescreen, name = 'victory'))
-		sm.add_widget(DefeatScreen(gamescreen, name = 'defeat'))
+		sm.add_widget(VictoryScreen(name = 'victory'))
+		sm.add_widget(DefeatScreen(name = 'defeat'))
 
 		return (sm)
 
