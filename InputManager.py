@@ -1,6 +1,7 @@
 from kivy.app import App
 from Line import Line
 from kivy.clock import Clock
+from kivy.core.window import Window
 
 class InputManager:
 
@@ -15,6 +16,10 @@ class InputManager:
 		self.dictionary = dictionary
 
 	def start_game(self, target_word):
+
+		# Hide the cursor
+		Window.show_cursor = False
+
 		self.target_word = target_word.upper()
 		for i in range(self.n_lines):
 			self.lines[i].clear_line()  # Clear all lines and reset focus
@@ -44,6 +49,8 @@ class InputManager:
 
 		#check for the win
 		if (control_code.count(control_code[0]) == len(control_code)):
+			Window.show_cursor = True
+
 			print("You win")
 			App.get_running_app().root.current = 'victory'
 		else:
@@ -55,8 +62,12 @@ class InputManager:
 
 			# check if the user has used all the tries
 			if (self.current_line == self.n_lines):
+
+				Window.show_cursor = True
+
 				print("Game over")
 				App.get_running_app().root.current = 'defeat'
+
 				return
 
 			# go to the next line

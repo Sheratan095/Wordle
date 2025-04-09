@@ -5,6 +5,7 @@ from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
+from kivy.core.window import Window
 
 class Line:
 
@@ -124,15 +125,9 @@ class Line:
 			self.inputs[i].focus = False  # Explicitly reset focus
 			self.disable_line()
 
-	def on_popup_dismiss(self, instance):
-		self.popupOpen = False
-		self.inputs[self.current_idx].focus = True
-
 	def _keyboard_on_key_down(self, idx, instance, window, keycode, text, modifiers):
 
 		if (keycode[1] == 'backspace' and self.popupOpen == False):  # Check if the key pressed is backspace
-
-			print(f"'{self.inputs[self.current_idx].text}' {self.current_idx} {idx}")
 
 			if (len(self.inputs[self.current_idx].text) == 0):  # If the current box is empty, move focus back
 
@@ -182,6 +177,9 @@ class Line:
 		return (False)  # Allow other keys to behave normally
 
 	def _create_popup(self, message):
+
+		Window.show_cursor = True
+
 		self.popupOpen = True
 		layout = BoxLayout(orientation = 'vertical', spacing = 10, padding = 10)
 		label = Label(text=message)
@@ -192,3 +190,9 @@ class Line:
 		button.bind(on_release=lambda instance: self.popup.dismiss())
 		self.popup.bind(on_dismiss=self.on_popup_dismiss)
 		self.popup.open()
+
+	def on_popup_dismiss(self, instance):
+		self.popupOpen = False
+		self.inputs[self.current_idx].focus = True
+		Window.show_cursor = False
+		
