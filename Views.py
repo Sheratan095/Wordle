@@ -65,7 +65,7 @@ class GameScreen(Screen):
 		print("target word: ", self.target_word )
 
 		self.grid.start_game(self.target_word)
-		Window.unbind(on_enter=self.on_enter)
+		Window.unbind(on_pre_enter=self.on_pre_enter)
 
 
 #------------------------------------------SECONDARY SCREENS------------------------------------------#
