@@ -84,6 +84,12 @@ class Line:
 
 		Clock.schedule_once(self.set_focus, 0.1)
 
+	#Clock.schedule_once(self.set_focus, 0.1) because Kivy's UI updates happen asynchronously.
+	# if self.inputs[0].focus = True is setted immediately after enabling the inputs, Kivy might not yet have completed updating the UI.
+	#By scheduling self.set_focus to run after a short delay (0.1 seconds):
+	#The UI has fully processed enabling the inputs.
+	#The first input field can properly receive focus.
+
 	def set_focus(self, dt):
 		self.inputs[0].focus = True
 	
