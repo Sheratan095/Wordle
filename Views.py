@@ -55,9 +55,13 @@ class GameScreen(Screen):
 
 		self.dictionary = dictionary
 
+		# don't need to beacause 
 		Window.bind(on_pre_enter=self.on_pre_enter)
 
+	# can't rename this method in _on_pre_enter
+	# bacause doens't work
 	def on_pre_enter(self, *args):
+		print("start game")
 		self._start_game()
 
 	def _start_game(self):
@@ -65,8 +69,6 @@ class GameScreen(Screen):
 		print("target word: ", self.target_word )
 
 		self.grid.start_game(self.target_word)
-
-		Window.unbind(on_pre_enter=self.on_pre_enter)
 
 
 #------------------------------------------SECONDARY SCREENS------------------------------------------#
