@@ -139,8 +139,6 @@ class Line:
 			return (True)  # Intercept the backspace action
 
 
-		if keycode[1] == 'enter':  # Check if the key pressed is enter
-
 		if (keycode[1] == 'enter'):  # Check if the key pressed is enter
 
 			if (self.popupOpen == True):
