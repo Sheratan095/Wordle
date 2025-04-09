@@ -20,21 +20,24 @@ class MainMenuScreen(Screen):
 
 
 		btn = Button(text="Start", size_hint=(0.5, 0.2), pos_hint={'center_x': 0.5})
-		btn.bind(on_press=self.start_game)
+		btn.bind(on_press=self._on_btn_press)
 		layout.add_widget(btn)
 
 		self.add_widget(layout)
 
-		Window.bind(on_key_down=self.on_key_down)
+		Window.bind(on_key_down=self._on_key_down)
 	
-	def on_key_down(self, window, key, scancode, codepoint, modifiers):
+	def _on_key_down(self, window, key, scancode, codepoint, modifiers):
 		if (key == 13):
-			self.start_game(None)
+			self.start_game()
+	
+	def _on_btn_press(self, instance):
+		self.start_game()
 
 	def set_gamescreen(self, gamescreen):
 		self.gamescreen = gamescreen
 	
-	def start_game(self, instance):
+	def start_game(self):
 
 		# Set the current screen of the ScreenManager to "game" (this screen should exist in the ScreenManager)
 		self.manager.current = "game"
@@ -42,7 +45,7 @@ class MainMenuScreen(Screen):
 		# Call the start_game method of the GameScreen instance to initialize the game.
 		self.gamescreen.start_game()
 
-		Window.unbind(on_key_down=self.on_key_down)
+		Window.unbind(on_key_down=self._on_key_down)
 
 
 class GameScreen(Screen):
