@@ -85,7 +85,7 @@ class Line:
 	def color_line(self, control_code):
 
 		if (control_code == "-1"):
-				_create_popup("Word not in dictionary")
+			self._create_popup("Word not in dictionary")
 			return
 
 		for i in range(self.n_letters):
@@ -155,7 +155,7 @@ class Line:
 			word = self.get_current_word()
 
 			if (word == None):
-				_create_popup("Too short")
+				self._create_popup("Too short")
 			else:
 				self.inputManager.check_line(word)  # Call the check_line method in InputManager
 
