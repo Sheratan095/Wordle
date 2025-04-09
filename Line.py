@@ -115,10 +115,12 @@ class Line:
 
 			print("Backspace pressed")
 
-			# if len(instance.text) == 0 and idx > 0:  # If the current box is empty, move focus back
-			# 	self.current_idx = idx - 1
-			# 	self.inputs[self.current_idx].focus = True
-			# 	self.inputs[self.current_idx].text = ""  # Clear the previous box
+			if len(instance.text) == 0 and idx > 0:  # If the current box is empty, move focus back
+				self.current_idx = idx - 1
+				self.inputs[self.current_idx].focus = True
+				self.inputs[self.current_idx].text = ""  # Clear the previous box
+			else:
+				instance.text = ""
 
 			return (True)  # Intercept the backspace action
 
