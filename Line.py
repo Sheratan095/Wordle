@@ -2,7 +2,9 @@ from kivy.uix.textinput import TextInput
 from functools import partial
 from kivy.clock import Clock
 from kivy.uix.popup import Popup
-from  kivy.uix.label import Label
+from kivy.uix.label import Label
+from kivy.uix.button import Button
+from kivy.uix.boxlayout import BoxLayout
 
 class Line:
 
@@ -82,7 +84,13 @@ class Line:
 
 		if (control_code == "-1"):
 			self.popupOpen = True
-			self.popup = Popup(title='Warning', content=Label(text='Not found word'), size_hint=(.5, .5), auto_dismiss=False)
+			layout = BoxLayout(orientation = 'vertical', spacing = 10, padding = 10)
+			label = Label(text='Word not found')
+			button = Button(text="Resume")
+			layout.add_widget(label)
+			layout.add_widget(button)
+			self.popup = Popup(title='Warning', content = layout, size_hint=(.5, .5), auto_dismiss=False)
+			button.bind(on_release=lambda instance: self.popup.dismiss())
 			self.popup.bind(on_dismiss=self.on_popup_dismiss)
 			self.popup.open()
 			return
@@ -134,8 +142,6 @@ class Line:
 
 		if (keycode[1] == 'backspace' and self.popupOpen == False):  # Check if the key pressed is backspace
 
-			print("Backspace pressed")
-
 			if len(instance.text) == 0 and idx > 0:  # If the current box is empty, move focus back
 				self.current_idx = idx - 1
 				self.inputs[self.current_idx].focus = True
@@ -156,7 +162,13 @@ class Line:
 
 			if (word == None):
 				self.popupOpen = True
-				self.popup = Popup(title='Warning', content=Label(text='Input five letters!'), size_hint=(.5, .5), auto_dismiss=False)
+				layout = BoxLayout(orientation = 'vertical', spacing = 10, padding = 10)
+				label = Label(text='Too short')
+				button = Button(text="Resume")
+				layout.add_widget(label)
+				layout.add_widget(button)
+				self.popup = Popup(title='Warning', content = layout, size_hint=(.5, .5), auto_dismiss=False)
+				button.bind(on_release=lambda instance: self.popup.dismiss())
 				self.popup.bind(on_dismiss=self.on_popup_dismiss)
 				self.popup.open()
 			else:
