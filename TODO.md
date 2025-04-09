@@ -4,5 +4,6 @@
 
 [?] Delete mouse click that focus the clicked text_box
 [x] Default focus on the first textbox
-[] Moving between tile with arrows?
+[x] Moving between tile with arrows?
 [x] MIRAO as target and MIRAR as input fail because last R is yellow
+[x] Esc during popup

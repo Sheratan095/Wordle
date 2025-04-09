@@ -5,6 +5,7 @@ from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
+from kivy.core.window import Window
 
 class Line:
 
@@ -22,13 +23,13 @@ class Line:
 			
 			# Disable mouse clicks on the TextInput
 			def disable_mouse_click(instance, touch):
-				return True  # Intercept and stop the touch event
+				return (True)  # Intercept and stop the touch event
 
 			text_box.on_touch_down = lambda touch, instance=text_box: disable_mouse_click(instance, touch)  # Properly pass the `touch` argument
 
 			# Use a wrapper function to handle key_down events
 			def key_down_wrapper(window, keycode, text, modifiers, idx=i):
-				return self._keyboard_on_key_down(idx, text_box, window, keycode, text, modifiers)
+				return (self._keyboard_on_key_down(idx, text_box, window, keycode, text, modifiers))
 
 			text_box.keyboard_on_key_down = key_down_wrapper  # Assign the wrapper function
 
@@ -67,7 +68,7 @@ class Line:
 			instance.text = value[:1]
 
 	# Compose the word from the letters in the line
-	def get_current_word(self):
+	def _get_current_word(self):
 		word = ""
 		for i in range(len(self.inputs)):
 
@@ -85,16 +86,7 @@ class Line:
 	def color_line(self, control_code):
 
 		if (control_code == "-1"):
-			self.popupOpen = True
-			layout = BoxLayout(orientation = 'vertical', spacing = 10, padding = 10)
-			label = Label(text='Word not found')
-			button = Button(text="Resume")
-			layout.add_widget(label)
-			layout.add_widget(button)
-			self.popup = Popup(title='Warning', content = layout, size_hint=(.5, .5), auto_dismiss=False)
-			button.bind(on_release=lambda instance: self.popup.dismiss())
-			self.popup.bind(on_dismiss=self.on_popup_dismiss)
-			self.popup.open()
+			self._create_popup("Word not in dictionary")
 			return
 
 		for i in range(self.n_letters):
@@ -133,15 +125,9 @@ class Line:
 			self.inputs[i].focus = False  # Explicitly reset focus
 			self.disable_line()
 
-	def on_popup_dismiss(self, instance):
-		self.popupOpen = False
-		self.inputs[self.current_idx].focus = True
-
 	def _keyboard_on_key_down(self, idx, instance, window, keycode, text, modifiers):
 
 		if (keycode[1] == 'backspace' and self.popupOpen == False):  # Check if the key pressed is backspace
-
-			print(f"'{self.inputs[self.current_idx].text}' {self.current_idx} {idx}")
 
 			if (len(self.inputs[self.current_idx].text) == 0):  # If the current box is empty, move focus back
 
@@ -161,19 +147,10 @@ class Line:
 				self.popup.dismiss(force=True)
 				return (True)
 
-			word = self.get_current_word()
+			word = self._get_current_word()
 
 			if (word == None):
-				self.popupOpen = True
-				layout = BoxLayout(orientation = 'vertical', spacing = 10, padding = 10)
-				label = Label(text='Too short')
-				button = Button(text="Resume")
-				layout.add_widget(label)
-				layout.add_widget(button)
-				self.popup = Popup(title='Warning', content = layout, size_hint=(.5, .5), auto_dismiss=False)
-				button.bind(on_release=lambda instance: self.popup.dismiss())
-				self.popup.bind(on_dismiss=self.on_popup_dismiss)
-				self.popup.open()
+				self._create_popup("Too short")
 			else:
 				self.inputManager.check_line(word)  # Call the check_line method in InputManager
 
@@ -197,4 +174,31 @@ class Line:
 	
 			return (True)  # Intercept the right arrow action
 
+		# intercept the escape key when the popup is open and close it
+		if (keycode[1] == 'escape'):
+			if (self.popupOpen == True):
+				self.popup.dismiss(force=True)
+				return (True)
+
 		return (False)  # Allow other keys to behave normally
+
+	def _create_popup(self, message):
+
+		Window.show_cursor = True
+
+		self.popupOpen = True
+		layout = BoxLayout(orientation = 'vertical', spacing = 10, padding = 10)
+		label = Label(text=message)
+		button = Button(text="Resume")
+		layout.add_widget(label)
+		layout.add_widget(button)
+		self.popup = Popup(title='Warning', content = layout, size_hint=(.5, .5), auto_dismiss=False)
+		button.bind(on_release=lambda instance: self.popup.dismiss())
+		self.popup.bind(on_dismiss=self.on_popup_dismiss)
+		self.popup.open()
+
+	def on_popup_dismiss(self, instance):
+		self.popupOpen = False
+		self.inputs[self.current_idx].focus = True
+		Window.show_cursor = False
+		

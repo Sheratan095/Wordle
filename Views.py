@@ -4,7 +4,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.core.window import Window
-
+from Globals import *
 
 # Define a screen for the main menu that inherits from Kivy's Screen class.
 # Starting page
@@ -47,13 +47,11 @@ class MainMenuScreen(Screen):
 
 class GameScreen(Screen):
 
-	def __init__(self, dictionary, **kwargs):
+	def __init__(self, **kwargs):
 		super().__init__(**kwargs)
 
-		self.grid = MyGridLayout(dictionary)
+		self.grid = MyGridLayout()
 		self.add_widget(self.grid)
-
-		self.dictionary = dictionary
 
 		# don't need to beacause 
 		Window.bind(on_pre_enter=self.on_pre_enter)
@@ -65,7 +63,7 @@ class GameScreen(Screen):
 		self._start_game()
 
 	def _start_game(self):
-		self.target_word = self.dictionary.get_random_word()
+		self.target_word = global_dictionary.get_random_word()
 		print("target word: ", self.target_word )
 
 		self.grid.start_game(self.target_word)

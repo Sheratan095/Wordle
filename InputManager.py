@@ -1,20 +1,26 @@
 from kivy.app import App
 from Line import Line
 from kivy.clock import Clock
+from kivy.core.window import Window
+from Globals import *
+
 
 class InputManager:
 
 	#n_lines is the number of tries
-	def __init__(self, n_lines, n_letters, layout, dictionary):
+	def __init__(self, n_lines, n_letters, layout):
 		self.lines = [None] * n_lines  # Creates a list with n_lines empty slots
 		self.n_lines = n_lines
 		self.n_letters = n_letters
 		self.layout = layout
 		self.current_line = 0
 		self._create_lines()
-		self.dictionary = dictionary
 
 	def start_game(self, target_word):
+
+		# Hide the cursor
+		Window.show_cursor = False
+
 		self.target_word = target_word.upper()
 		for i in range(self.n_lines):
 			self.lines[i].clear_line()  # Clear all lines and reset focus
@@ -31,19 +37,21 @@ class InputManager:
 	def check_line(self, word):
 
 		# check if the word is in the dictionary
-		if (self.dictionary.word_exists(word) == False):
+		if (global_dictionary.word_exists(word) == False):
 			self.lines[self.current_line].color_line("-1")  # word not valid
 			return
 
 		# valid word
 
 		# generate control code
-		control_code = self.generate_control_code(word)
+		control_code = self._generate_control_code(word)
 		
 		self.lines[self.current_line].color_line(control_code)
 
 		#check for the win
 		if (control_code.count(control_code[0]) == len(control_code)):
+			Window.show_cursor = True
+
 			print("You win")
 			App.get_running_app().root.current = 'victory'
 		else:
@@ -55,14 +63,18 @@ class InputManager:
 
 			# check if the user has used all the tries
 			if (self.current_line == self.n_lines):
+
+				Window.show_cursor = True
+
 				print("Game over")
 				App.get_running_app().root.current = 'defeat'
+
 				return
 
 			# go to the next line
 			self.lines[self.current_line].enable_line()
 	
-	def generate_control_code(self, word):
+	def _generate_control_code(self, word):
 
 		control_code = ""
 
