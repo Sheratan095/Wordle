@@ -57,6 +57,8 @@ class Line:
 			self.current_idx = idx + 1
 			if self.current_idx < self.n_letters:  # Ensure we don't go out of bounds
 				self.inputs[self.current_idx].focus = True
+			else:
+				self.current_idx = idx - 1
 
 		# it limits the number of letters to 1 truncate the string when the user types more than 1 letter
 		if (len(value) > 1):
@@ -124,6 +126,7 @@ class Line:
 			self.disable_line()
 
 	def on_popup_dismiss(self, instance):
+
 		self.popupOpen = False
 		self.inputs[self.current_idx].focus = True
 
