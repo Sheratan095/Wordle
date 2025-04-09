@@ -174,6 +174,12 @@ class Line:
 	
 			return (True)  # Intercept the right arrow action
 
+		# intercept the escape key when the popup is open and close it
+		if (keycode[1] == 'escape'):
+			if (self.popupOpen == True):
+				self.popup.dismiss(force=True)
+				return (True)
+
 		return (False)  # Allow other keys to behave normally
 
 	def _create_popup(self, message):

@@ -6,4 +6,4 @@
 [x] Default focus on the first textbox
 [x] Moving between tile with arrows?
 [x] MIRAO as target and MIRAR as input fail because last R is yellow
-[] Esc during popup
+[x] Esc during popup
