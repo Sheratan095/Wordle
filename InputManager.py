@@ -43,7 +43,7 @@ class InputManager:
 		# valid word
 
 		# generate control code
-		control_code = self.generate_control_code(word)
+		control_code = self._generate_control_code(word)
 		
 		self.lines[self.current_line].color_line(control_code)
 
@@ -73,7 +73,7 @@ class InputManager:
 			# go to the next line
 			self.lines[self.current_line].enable_line()
 	
-	def generate_control_code(self, word):
+	def _generate_control_code(self, word):
 
 		control_code = ""
 

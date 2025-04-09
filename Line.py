@@ -68,7 +68,7 @@ class Line:
 			instance.text = value[:1]
 
 	# Compose the word from the letters in the line
-	def get_current_word(self):
+	def _get_current_word(self):
 		word = ""
 		for i in range(len(self.inputs)):
 
@@ -147,7 +147,7 @@ class Line:
 				self.popup.dismiss(force=True)
 				return (True)
 
-			word = self.get_current_word()
+			word = self._get_current_word()
 
 			if (word == None):
 				self._create_popup("Too short")
