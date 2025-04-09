@@ -82,7 +82,8 @@ class Line:
 
 		if (control_code == "-1"):
 			self.popupOpen = True
-			self.popup = Popup(title='Warning', content=Label(text='Not found word'), size_hint=(.5, .5))
+			self.popup = Popup(title='Warning', content=Label(text='Not found word'), size_hint=(.5, .5), auto_dismiss=False)
+			self.popup.bind(on_dismiss=self.on_popup_dismiss)
 			self.popup.open()
 			return
 
@@ -122,6 +123,12 @@ class Line:
 			self.inputs[i].focus = False  # Explicitly reset focus
 			self.disable_line()
 
+	def on_popup_dismiss(self, instance):
+		self.popupOpen = False
+		self.inputs[self.current_idx].focus = True
+
+		for i in range(self.n_letters):
+			print(self.inputs[i].focus)
 
 	def _keyboard_on_key_down(self, idx, instance, window, keycode, text, modifiers):
 
@@ -143,14 +150,14 @@ class Line:
 
 			if (self.popupOpen == True):
 				self.popup.dismiss(force=True)
-				self.popupOpen = False
 				return (True)
 
 			word = self.get_current_word()
 
 			if (word == None):
 				self.popupOpen = True
-				self.popup = Popup(title='Warning', content=Label(text='Input five letters!'), size_hint=(.5, .5))
+				self.popup = Popup(title='Warning', content=Label(text='Input five letters!'), size_hint=(.5, .5), auto_dismiss=False)
+				self.popup.bind(on_dismiss=self.on_popup_dismiss)
 				self.popup.open()
 			else:
 				self.inputManager.check_line(word)  # Call the check_line method in InputManager
