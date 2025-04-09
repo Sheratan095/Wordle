@@ -42,10 +42,18 @@ class Line:
 			instance.text = value[:1]
 
 	def _on_enter(self, instance, value):
+		self.get_current_word()
+	
+	def get_current_word(self):
 		word = ""
+		print("Checking the word")
 		for i in range(len(self.inputs)):
+
 			if (len(self.inputs[i].text) == 0):
-				print ("Error, not enough letters")
+				print("Empty input at ", i)
+				# restote the focus to the first empty input
+				# print ("Error, not enough letters")
+				self.inputs[i].focus = True
 				return
 			word += self.inputs[i].text
 		self.inputManager.check_line(word)  # Call the check_line method in InputManager
@@ -70,9 +78,16 @@ class Line:
 	def enable_line(self):
 		for i in range(self.n_letters):
 			self.inputs[i].disabled = False
+			self.inputs[i].focus = False
 
 		self.inputs[0].focus = True  # Set focus to the first input
 	
 	def disable_line(self):
 		for i in range(self.n_letters):
 			self.inputs[i].disabled = True
+	
+	def clear_line(self):
+		for i in range(self.n_letters):
+			self.inputs[i].text = ""
+			self.inputs[i].background_color = [1, 1, 1, 1]
+			self.disable_line()
