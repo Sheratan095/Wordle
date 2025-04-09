@@ -1,4 +1,3 @@
-import kivy
 from kivy.app import App #base functionality required to create GUI
 from kivy.uix.label import Label #widget
 from kivy.uix.gridlayout import GridLayout
