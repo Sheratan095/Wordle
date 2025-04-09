@@ -2,18 +2,19 @@ from kivy.app import App
 from Line import Line
 from kivy.clock import Clock
 from kivy.core.window import Window
+from Globals import *
+
 
 class InputManager:
 
 	#n_lines is the number of tries
-	def __init__(self, n_lines, n_letters, layout, dictionary):
+	def __init__(self, n_lines, n_letters, layout):
 		self.lines = [None] * n_lines  # Creates a list with n_lines empty slots
 		self.n_lines = n_lines
 		self.n_letters = n_letters
 		self.layout = layout
 		self.current_line = 0
 		self._create_lines()
-		self.dictionary = dictionary
 
 	def start_game(self, target_word):
 
@@ -36,7 +37,7 @@ class InputManager:
 	def check_line(self, word):
 
 		# check if the word is in the dictionary
-		if (self.dictionary.word_exists(word) == False):
+		if (global_dictionary.word_exists(word) == False):
 			self.lines[self.current_line].color_line("-1")  # word not valid
 			return
 

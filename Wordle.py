@@ -7,16 +7,16 @@ Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, FadeTransition
 
-from Dictionary import Dictionary
+from Globals import *
 from Views import MainMenuScreen, GameScreen, VictoryScreen, DefeatScreen
+
 
 class WordleApp(App):
 
 	def build(self, dictionary_file = "test.txt"):
 
 		# load the dictionary
-		dictionary = Dictionary()
-		dictionary.load_from_file(dictionary_file)
+		global_dictionary.load_from_file(dictionary_file)
 
 	 	# Create a ScreenManager with a fade transition effect between screens.
 		sm = ScreenManager(transition=FadeTransition())
@@ -25,7 +25,7 @@ class WordleApp(App):
 		mainMenù = MainMenuScreen(name ='menu')
 		sm.add_widget(mainMenù)
 
-		gamescreen = GameScreen(dictionary, name = 'game')
+		gamescreen = GameScreen(name = 'game')
 		sm.add_widget(gamescreen)
 
 		mainMenù.set_gamescreen(gamescreen)
