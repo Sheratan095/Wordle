@@ -58,9 +58,9 @@ class GameScreen(Screen):
 		Window.bind(on_pre_enter=self.on_pre_enter)
 
 	def on_pre_enter(self, *args):
-		self.start_game()
+		self._start_game()
 
-	def start_game(self):
+	def _start_game(self):
 		self.target_word = self.dictionary.get_random_word()
 		print("target word: ", self.target_word )
 
