@@ -59,6 +59,8 @@ class Line:
 			self.current_idx = idx + 1
 			if self.current_idx < self.n_letters:  # Ensure we don't go out of bounds
 				self.inputs[self.current_idx].focus = True
+			else:
+				self.current_idx = idx - 1
 
 		# it limits the number of letters to 1 truncate the string when the user types more than 1 letter
 		if (len(value) > 1):
@@ -134,9 +136,6 @@ class Line:
 	def on_popup_dismiss(self, instance):
 		self.popupOpen = False
 		self.inputs[self.current_idx].focus = True
-
-		for i in range(self.n_letters):
-			print(self.inputs[i].focus)
 
 	def _keyboard_on_key_down(self, idx, instance, window, keycode, text, modifiers):
 
