@@ -39,7 +39,6 @@ class GameScreen(Screen):
 
 	def start_game(self):
 		self.grid.start_game()
-		print("starting")
 
 
 class VictoryScreen(Screen):

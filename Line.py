@@ -1,5 +1,6 @@
 from kivy.uix.textinput import TextInput
 from functools import partial
+from kivy.clock import Clock
 
 class Line:
 
@@ -55,6 +56,7 @@ class Line:
 				# print ("Error, not enough letters")
 				self.inputs[i].focus = True
 				return
+	
 			word += self.inputs[i].text
 		self.inputManager.check_line(word)  # Call the check_line method in InputManager
 
@@ -80,14 +82,19 @@ class Line:
 			self.inputs[i].disabled = False
 			self.inputs[i].focus = False
 
-		self.inputs[0].focus = True  # Set focus to the first input
+		Clock.schedule_once(self.set_focus, 0.1)
+
+	def set_focus(self, dt):
+		self.inputs[0].focus = True
 	
 	def disable_line(self):
 		for i in range(self.n_letters):
 			self.inputs[i].disabled = True
+			self.inputs[i].focus = False
 	
 	def clear_line(self):
 		for i in range(self.n_letters):
 			self.inputs[i].text = ""
 			self.inputs[i].background_color = [1, 1, 1, 1]
+			self.inputs[i].focus = False  # Explicitly reset focus
 			self.disable_line()

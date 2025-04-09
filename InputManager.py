@@ -1,5 +1,6 @@
 from kivy.app import App
 from Line import Line
+from kivy.clock import Clock
 
 class InputManager:
 
@@ -15,7 +16,10 @@ class InputManager:
 		self._create_lines()
 
 	def start_game(self):
-		self.lines[0].enable_line()  # Enable the first line for input
+		for i in range(self.n_lines):
+			self.lines[i].clear_line()  # Clear all lines and reset focus
+		self.current_line = 0
+		Clock.schedule_once(lambda dt: self.lines[0].enable_line(), 0.1)  # Enable the first line with a slight delay
 
 	#init the lines
 	def _create_lines(self):
