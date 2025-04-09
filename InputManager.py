@@ -15,8 +15,6 @@ class InputManager:
 		self._create_lines()
 
 	def start_game(self):
-		for i in range(self.n_lines):
-			self.lines[i].clear_line()
 		self.lines[0].enable_line()  # Enable the first line for input
 
 	#init the lines

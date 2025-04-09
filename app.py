@@ -28,7 +28,10 @@ class MyGridLayout(GridLayout):
 		# 	for j in range(5):
 		# 		self.text_box  = TextInput(multiline = False)
 		# 		self.add_widget(self.text_box)
-		InputManager(6, 5, self, dictionary, target_word)
+		self.inputManager = InputManager(6, 5, self, dictionary, target_word)
+	
+	def start_game(self):
+		self.inputManager.start_game()
 		
 class WordleApp(App):
 	def build(self):
