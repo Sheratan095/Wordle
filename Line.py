@@ -4,6 +4,7 @@ from kivy.clock import Clock
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.core.window import Window
+from kivy.app import App
 
 class Line:
 
@@ -13,12 +14,13 @@ class Line:
 		self.n_letters = n_letters
 		self.inputs = []
 		self.inputManager = inputManager
+		self.popupOpen = False
 
 		for i in range(n_letters):
 			# Create a TextInput widget for each letter, disabled by default
 			text_box = TextInput(multiline=False, disabled=True, focus=False, halign="center", font_size="24sp", size_hint = (None, None), width=60, height=60, padding_y = [15, 15])
 
-			 # Use a wrapper function to handle key_down events
+			# Use a wrapper function to handle key_down events
 			def key_down_wrapper(window, keycode, text, modifiers, idx=i):
 				return (self._keyboard_on_key_down(idx, text_box, window, keycode, text, modifiers))
 
@@ -61,19 +63,7 @@ class Line:
 		for i in range(len(self.inputs)):
 
 			if (len(self.inputs[i].text) == 0):
-				print("Empty input at ", i)
-				popup = Popup(title='Warning', content=Label(text='Input five letters!'), size_hint=(.5, .5))
-				
-				def on_key_down(self, window, key, scancode, codepoint, modifiers):
-						if key == 13:
-							popup.dismiss()
-							return True
-
-				Window.bind(on_key_down=on_key_down)
-				popup.bind(on_dismiss=lambda instance: Window.unbind(on_key_down=on_key_down))
-				popup.open()
 				# restote the focus to the first empty input
-				# print ("Error, not enough letters")
 				self.inputs[i].focus = True
 				return
 	
@@ -83,27 +73,20 @@ class Line:
 
 	# Called by check_line to color the letters
 	#  for each letter in the word, 0 for green, 1 for yellow, 2 for gray
-	def color_line(self, check_code):
+	def color_line(self, control_code):
 
-		if (check_code == "-1"):
-			popup = Popup(title='Warning', content=Label(text='Invalid word!'), size_hint=(.5, .5))
-
-			def on_key_down(self, window, key, scancode, codepoint, modifiers):
-				if key == 13:
-					popup.dismiss()
-
-			Window.bind(on_key_down=on_key_down)
-			popup.bind(on_dismiss=lambda instance: Window.unbind(on_key_down=on_key_down))
-			popup.open()
-			print ("The word is not in the dictionary")
+		if (control_code == "-1"):
+			self.popupOpen = True
+			self.popup = Popup(title='Warning', content=Label(text='Not found word'), size_hint=(.5, .5))
+			self.popup.open()
 			return
 
 		for i in range(self.n_letters):
-			if check_code[i] == '0':
+			if control_code[i] == '0':
 				self.inputs[i].background_color = [0, 1, 0, 1]  # Green
-			elif check_code[i] == '1':
+			elif control_code[i] == '1':
 				self.inputs[i].background_color = [1, 1, 0, 1]  # Yellow
-			elif check_code[i] == '2':
+			elif control_code[i] == '2':
 				self.inputs[i].background_color = [0.5, 0.5, 0.5, 1]  # Gray
 
 	def enable_line(self):
@@ -153,11 +136,17 @@ class Line:
 
 		if (keycode[1] == 'enter'):  # Check if the key pressed is enter
 
+			if (self.popupOpen == True):
+				self.popup.dismiss(force=True)
+				self.popupOpen = False
+				return (True)
+
 			word = self._get_current_word()
 
 			if (word == None):
-				popup = Popup(title='Warning', content=Label(text='Input five letters!'), size_hint=(.5, .5))
-				popup.open()
+				self.popupOpen = True
+				self.popup = Popup(title='Warning', content=Label(text='Input five letters!'), size_hint=(.5, .5))
+				self.popup.open()
 			else:
 				self.inputManager.check_line(word)  # Call the check_line method in InputManager
 
