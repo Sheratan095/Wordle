@@ -21,7 +21,7 @@ class MyGridLayout(GridLayout):
 		
 class WordleApp(App):
 	def build(self):
-		return MyGridLayout()
+		return (MyGridLayout())
 	
 if __name__ == '__main__':
 	WordleApp().run()

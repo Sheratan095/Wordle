@@ -23,13 +23,13 @@ class Line:
 			
 			# Disable mouse clicks on the TextInput
 			def disable_mouse_click(instance, touch):
-				return True  # Intercept and stop the touch event
+				return (True)  # Intercept and stop the touch event
 
 			text_box.on_touch_down = lambda touch, instance=text_box: disable_mouse_click(instance, touch)  # Properly pass the `touch` argument
 
 			# Use a wrapper function to handle key_down events
 			def key_down_wrapper(window, keycode, text, modifiers, idx=i):
-				return self._keyboard_on_key_down(idx, text_box, window, keycode, text, modifiers)
+				return (self._keyboard_on_key_down(idx, text_box, window, keycode, text, modifiers))
 
 			text_box.keyboard_on_key_down = key_down_wrapper  # Assign the wrapper function
 
