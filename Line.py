@@ -35,6 +35,11 @@ class Line:
 	# Define the on_text method that will switch focus
 	# Callback function: function passed as an argument to another function
 	def _on_text(self, idx, instance, value):
+
+		if self.popupOpen:
+			instance.text = ""
+			return
+
 		if (len(value) == 1):  # Check if the current text box is filled
 
 			#check if the inserted letter is an alphabetic character
@@ -120,7 +125,7 @@ class Line:
 
 	def _keyboard_on_key_down(self, idx, instance, window, keycode, text, modifiers):
 
-		if (keycode[1] == 'backspace'):  # Check if the key pressed is backspace
+		if (keycode[1] == 'backspace' and self.popupOpen == False):  # Check if the key pressed is backspace
 
 			self.current_idx = idx
 
@@ -152,7 +157,7 @@ class Line:
 
 			return (True)  # Intercept the enter action
 
-		if (keycode[1] == 'left'):  # Check if the key pressed is left arrow
+		if (keycode[1] == 'left' and self.popupOpen == False):  # Check if the key pressed is left arrow
 
 			if (idx > 0):
 				self.inputs[self.current_idx - 1 ].focus = False
@@ -161,7 +166,7 @@ class Line:
 
 			return (True)  # Intercept the left arrow action
 
-		if (keycode[1] == 'right'):  # Check if the key pressed is right arrow
+		if (keycode[1] == 'right' and self.popupOpen == False):  # Check if the key pressed is right arrow
 
 			if (idx < self.n_letters - 1):
 				self.inputs[self.current_idx].focus = False
