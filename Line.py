@@ -85,16 +85,7 @@ class Line:
 	def color_line(self, control_code):
 
 		if (control_code == "-1"):
-			self.popupOpen = True
-			layout = BoxLayout(orientation = 'vertical', spacing = 10, padding = 10)
-			label = Label(text='Word not found')
-			button = Button(text="Resume")
-			layout.add_widget(label)
-			layout.add_widget(button)
-			self.popup = Popup(title='Warning', content = layout, size_hint=(.5, .5), auto_dismiss=False)
-			button.bind(on_release=lambda instance: self.popup.dismiss())
-			self.popup.bind(on_dismiss=self.on_popup_dismiss)
-			self.popup.open()
+				_create_popup("Word not in dictionary")
 			return
 
 		for i in range(self.n_letters):
@@ -164,16 +155,7 @@ class Line:
 			word = self.get_current_word()
 
 			if (word == None):
-				self.popupOpen = True
-				layout = BoxLayout(orientation = 'vertical', spacing = 10, padding = 10)
-				label = Label(text='Too short')
-				button = Button(text="Resume")
-				layout.add_widget(label)
-				layout.add_widget(button)
-				self.popup = Popup(title='Warning', content = layout, size_hint=(.5, .5), auto_dismiss=False)
-				button.bind(on_release=lambda instance: self.popup.dismiss())
-				self.popup.bind(on_dismiss=self.on_popup_dismiss)
-				self.popup.open()
+				_create_popup("Too short")
 			else:
 				self.inputManager.check_line(word)  # Call the check_line method in InputManager
 
@@ -198,3 +180,15 @@ class Line:
 			return (True)  # Intercept the right arrow action
 
 		return (False)  # Allow other keys to behave normally
+
+	def _create_popup(self, message):
+		self.popupOpen = True
+		layout = BoxLayout(orientation = 'vertical', spacing = 10, padding = 10)
+		label = Label(text=message)
+		button = Button(text="Resume")
+		layout.add_widget(label)
+		layout.add_widget(button)
+		self.popup = Popup(title='Warning', content = layout, size_hint=(.5, .5), auto_dismiss=False)
+		button.bind(on_release=lambda instance: self.popup.dismiss())
+		self.popup.bind(on_dismiss=self.on_popup_dismiss)
+		self.popup.open()
