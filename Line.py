@@ -12,6 +12,7 @@ class Line:
 		self.n_letters = n_letters
 		self.inputs = []
 		self.inputManager = inputManager
+		self.popupOpen = False
 
 		for i in range(n_letters):
 			# Create a TextInput widget for each letter, disabled by default
@@ -23,7 +24,7 @@ class Line:
 
 			text_box.on_touch_down = lambda touch, instance=text_box: disable_mouse_click(instance, touch)  # Properly pass the `touch` argument
 
-			 # Use a wrapper function to handle key_down events
+			# Use a wrapper function to handle key_down events
 			def key_down_wrapper(window, keycode, text, modifiers, idx=i):
 				return self._keyboard_on_key_down(idx, text_box, window, keycode, text, modifiers)
 
@@ -38,6 +39,11 @@ class Line:
 	# Define the on_text method that will switch focus
 	# Callback function: function passed as an argument to another function
 	def _on_text(self, idx, instance, value):
+
+		if self.popupOpen:
+			instance.text = ""
+			return
+
 		if (len(value) == 1):  # Check if the current text box is filled
 
 			#check if the inserted letter is an alphabetic character
@@ -62,6 +68,7 @@ class Line:
 		for i in range(len(self.inputs)):
 
 			if (len(self.inputs[i].text) == 0):
+				# restote the focus to the first empty input
 				self.inputs[i].focus = True
 				return (None)
 
@@ -71,20 +78,20 @@ class Line:
 
 	# Called by check_line to color the letters
 	#  for each letter in the word, 0 for green, 1 for yellow, 2 for gray
-	def color_line(self, check_code):
+	def color_line(self, control_code):
 
-		if (check_code == "-1"):
-			popup = Popup(title='Warning', content=Label(text='Invalid word!'), size_hint=(.5, .5))
-			print ("The word is not in the dictionary")
-			popup.open()
+		if (control_code == "-1"):
+			self.popupOpen = True
+			self.popup = Popup(title='Warning', content=Label(text='Not found word'), size_hint=(.5, .5))
+			self.popup.open()
 			return
 
 		for i in range(self.n_letters):
-			if check_code[i] == '0':
+			if control_code[i] == '0':
 				self.inputs[i].background_color = [0, 1, 0, 1]  # Green
-			elif check_code[i] == '1':
+			elif control_code[i] == '1':
 				self.inputs[i].background_color = [1, 1, 0, 1]  # Yellow
-			elif check_code[i] == '2':
+			elif control_code[i] == '2':
 				self.inputs[i].background_color = [0.5, 0.5, 0.5, 1]  # Gray
 
 	def enable_line(self):
@@ -118,7 +125,7 @@ class Line:
 
 	def _keyboard_on_key_down(self, idx, instance, window, keycode, text, modifiers):
 
-		if keycode[1] == 'backspace':  # Check if the key pressed is backspace
+		if (keycode[1] == 'backspace' and self.popupOpen == False):  # Check if the key pressed is backspace
 
 			print("Backspace pressed")
 
@@ -134,16 +141,40 @@ class Line:
 
 		if keycode[1] == 'enter':  # Check if the key pressed is enter
 
-			print("Enter pressed")
+		if (keycode[1] == 'enter'):  # Check if the key pressed is enter
+
+			if (self.popupOpen == True):
+				self.popup.dismiss(force=True)
+				self.popupOpen = False
+				return (True)
 
 			word = self.get_current_word()
 
 			if (word == None):
-				popup = Popup(title='Warning', content=Label(text='Input five letters!'), size_hint=(.5, .5))
-				popup.open()
+				self.popupOpen = True
+				self.popup = Popup(title='Warning', content=Label(text='Input five letters!'), size_hint=(.5, .5))
+				self.popup.open()
 			else:
 				self.inputManager.check_line(word)  # Call the check_line method in InputManager
 
 			return (True)  # Intercept the enter action
+
+		if (keycode[1] == 'left' and self.popupOpen == False):  # Check if the key pressed is left arrow
+
+			if (idx > 0):
+				self.inputs[self.current_idx - 1 ].focus = False
+				self.current_idx = idx - 1
+				self.inputs[self.current_idx].focus = True
+
+			return (True)  # Intercept the left arrow action
+
+		if (keycode[1] == 'right' and self.popupOpen == False):  # Check if the key pressed is right arrow
+
+			if (idx < self.n_letters - 1):
+				self.inputs[self.current_idx].focus = False
+				self.current_idx = idx + 1
+				self.inputs[self.current_idx].focus = True
+	
+			return (True)  # Intercept the right arrow action
 
 		return (False)  # Allow other keys to behave normally
