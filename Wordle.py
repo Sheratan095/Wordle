@@ -8,7 +8,7 @@ from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, FadeTransition
 
 from Dictionary import Dictionary
-from Screens import MainMenuScreen, GameScreen, VictoryScreen, DefeatScreen
+from Views import MainMenuScreen, GameScreen, VictoryScreen, DefeatScreen
 
 class WordleApp(App):
 

@@ -44,7 +44,9 @@ class MainMenuScreen(Screen):
 
 		Window.unbind(on_key_down=self.on_key_down)
 
+
 class GameScreen(Screen):
+
 	def __init__(self, dictionary, **kwargs):
 		super().__init__(**kwargs)
 
@@ -59,6 +61,7 @@ class GameScreen(Screen):
 
 		self.grid.start_game(self.target_word)
 
+#------------------------------------------SECONDARY SCREENS------------------------------------------#
 
 class VictoryScreen(Screen):
 
@@ -83,7 +86,9 @@ class VictoryScreen(Screen):
 		self.manager.current = "game" 
 		self.gamescreen.start_game()
 
+
 class DefeatScreen(Screen):
+
 	def __init__(self,  gamescreen, **kwargs):
 		super().__init__(**kwargs)
 
