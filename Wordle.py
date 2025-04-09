@@ -18,10 +18,12 @@ class WordleApp(App):
 		dictionary = Dictionary()
 		dictionary.load_from_file(dictionary_file)
 
-		sm = ScreenManager(transition=FadeTransition()) # Create a ScreenManager with a fade transition effect between screens.
+	 	# Create a ScreenManager with a fade transition effect between screens.
+		sm = ScreenManager(transition=FadeTransition())
 
+	 	# Add the MainMenuScreen to the ScreenManager and assign it the name 'menu'.
 		mainMenù = MainMenuScreen(name ='menu')
-		sm.add_widget(mainMenù) # Add the MainMenuScreen to the ScreenManager and assign it the name 'menu'.
+		sm.add_widget(mainMenù)
 
 		gamescreen = GameScreen(dictionary, name = 'game')
 		sm.add_widget(gamescreen)
