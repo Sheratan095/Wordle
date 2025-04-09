@@ -81,6 +81,23 @@ class VictoryScreen(Screen):
 
 		self.gamescreen = gamescreen
 
+		# Ensure that the key binding happens only when the victory screen is diplayed
+		# bind them on enter and unbind them on leave
+		self.bind(on_pre_enter=self.on_pre_enter)
+		self.bind(on_leave=self.on_leave)
+
+	#This is called when the screen is about to be displayed
+	# ensures that key binding happens only when the victory screen is about to be displayed
+	def on_pre_enter(self, *args):
+			Window.bind(on_key_down=self.on_key_down)
+
+	def on_leave(self, *args):
+			Window.unbind(on_key_down=self.on_key_down)
+
+	def on_key_down(self, window, key, scancode, codepoint, modifiers):
+		if (key == 13): # Enter key
+			self.start_game(None)
+
 	def start_game(self, instance):
 		# Set the current screen of the ScreenManager to "game" (this screen should exist in the ScreenManager)
 		self.manager.current = "game" 
@@ -98,13 +115,30 @@ class DefeatScreen(Screen):
 		layout.add_widget(title)
 
 		btn = Button(text="Restart", size_hint=(0.5, 0.2), pos_hint={'center_x': 0.5})
-		btn.bind(on_press=self.restart_game)
+		btn.bind(on_press=self._restart_game)
 		layout.add_widget(btn)
 
 		self.add_widget(layout)
 
 		self.gamescreen = gamescreen
 
-	def restart_game(self, instance):
+		# Ensure that the key binding happens only when the victory screen is diplayed
+		# bind them on enter and unbind them on leave
+		self.bind(on_pre_enter=self._on_pre_enter)
+		self.bind(on_leave=self._on_leave)
+
+	#This is called when the screen is about to be displayed
+	# ensures that key binding happens only when the victory screen is about to be displayed
+	def _on_pre_enter(self, *args):
+		Window.bind(on_key_down=self._on_key_down)
+
+	def _on_leave(self, *args):
+			Window.unbind(on_key_down=self._on_key_down)
+
+	def _on_key_down(self, window, key, scancode, codepoint, modifiers):
+		if (key == 13):  # Enter key
+			self._restart_game(None)
+
+	def _restart_game(self, instance):
 		self.manager.current = "game"
 		self.gamescreen.start_game()
