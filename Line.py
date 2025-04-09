@@ -126,18 +126,12 @@ class Line:
 			self.disable_line()
 
 	def on_popup_dismiss(self, instance):
-
 		self.popupOpen = False
 		self.inputs[self.current_idx].focus = True
-
-		for i in range(self.n_letters):
-			print(self.inputs[i].focus)
 
 	def _keyboard_on_key_down(self, idx, instance, window, keycode, text, modifiers):
 
 		if (keycode[1] == 'backspace' and self.popupOpen == False):  # Check if the key pressed is backspace
-
-			print("Backspace pressed")
 
 			if len(instance.text) == 0 and idx > 0:  # If the current box is empty, move focus back
 				self.current_idx = idx - 1
