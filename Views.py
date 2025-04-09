@@ -42,7 +42,7 @@ class MainMenuScreen(Screen):
 		# Call the start_game method of the GameScreen instance to initialize the game.
 		self.gamescreen.start_game()
 
-		Window.unbind(on_key_down=self.on_key_down)
+		Window.unbind(=self.oon_key_downn_key_down)
 
 
 class GameScreen(Screen):

@@ -2,8 +2,7 @@ from kivy.uix.textinput import TextInput
 from functools import partial
 from kivy.clock import Clock
 from kivy.uix.popup import Popup
-from kivy.uix.label import Label
-from kivy.core.window import Window
+from  kivy.uix.label import Label
 
 class Line:
 
@@ -17,10 +16,16 @@ class Line:
 		for i in range(n_letters):
 			# Create a TextInput widget for each letter, disabled by default
 			text_box = TextInput(multiline=False, disabled=True, focus=False, halign="center", font_size="24sp", size_hint = (None, None), width=60, height=60, padding_y = [15, 15])
+			
+			# Disable mouse clicks on the TextInput
+			def disable_mouse_click(instance, touch):
+				return True  # Intercept and stop the touch event
+
+			text_box.on_touch_down = lambda touch, instance=text_box: disable_mouse_click(instance, touch)  # Properly pass the `touch` argument
 
 			 # Use a wrapper function to handle key_down events
 			def key_down_wrapper(window, keycode, text, modifiers, idx=i):
-				return (self._keyboard_on_key_down(idx, text_box, window, keycode, text, modifiers))
+				return self._keyboard_on_key_down(idx, text_box, window, keycode, text, modifiers)
 
 			text_box.keyboard_on_key_down = key_down_wrapper  # Assign the wrapper function
 
@@ -48,35 +53,18 @@ class Line:
 				self.inputs[self.current_idx].focus = True
 
 		# it limits the number of letters to 1 truncate the string when the user types more than 1 letter
-		if (len(value) > 2):
+		if (len(value) > 1):
 			instance.text = value[:1]
-		
-		if (len(value) == 2):
-			instance.text = value[1]
 
 	# Compose the word from the letters in the line
-	def _get_current_word(self):
+	def get_current_word(self):
 		word = ""
-		print("Checking the word")
 		for i in range(len(self.inputs)):
 
 			if (len(self.inputs[i].text) == 0):
-				print("Empty input at ", i)
-				popup = Popup(title='Warning', content=Label(text='Input five letters!'), size_hint=(.5, .5))
-				
-				def on_key_down(self, window, key, scancode, codepoint, modifiers):
-						if key == 13:
-							popup.dismiss()
-							return True
-
-				Window.bind(on_key_down=on_key_down)
-				popup.bind(on_dismiss=lambda instance: Window.unbind(on_key_down=on_key_down))
-				popup.open()
-				# restote the focus to the first empty input
-				# print ("Error, not enough letters")
 				self.inputs[i].focus = True
-				return
-	
+				return (None)
+
 			word += self.inputs[i].text
 
 		return (word.upper())
@@ -87,15 +75,8 @@ class Line:
 
 		if (check_code == "-1"):
 			popup = Popup(title='Warning', content=Label(text='Invalid word!'), size_hint=(.5, .5))
-
-			def on_key_down(self, window, key, scancode, codepoint, modifiers):
-				if key == 13:
-					popup.dismiss()
-
-			Window.bind(on_key_down=on_key_down)
-			popup.bind(on_dismiss=lambda instance: Window.unbind(on_key_down=on_key_down))
-			popup.open()
 			print ("The word is not in the dictionary")
+			popup.open()
 			return
 
 		for i in range(self.n_letters):
@@ -111,7 +92,7 @@ class Line:
 			self.inputs[i].disabled = False
 			self.inputs[i].focus = False
 
-		Clock.schedule_once(self._set_focus, 0.1)
+		Clock.schedule_once(self.set_focus, 0.1)
 
 	#Clock.schedule_once(self.set_focus, 0.1) because Kivy's UI updates happen asynchronously.
 	# if self.inputs[0].focus = True is setted immediately after enabling the inputs, Kivy might not yet have completed updating the UI.
@@ -119,7 +100,7 @@ class Line:
 	#The UI has fully processed enabling the inputs.
 	#The first input field can properly receive focus.
 
-	def _set_focus(self, dt):
+	def set_focus(self, dt):
 		self.inputs[0].focus = True
 	
 	def disable_line(self):
@@ -137,23 +118,25 @@ class Line:
 
 	def _keyboard_on_key_down(self, idx, instance, window, keycode, text, modifiers):
 
-		if (keycode[1] == 'backspace'):  # Check if the key pressed is backspace
+		if keycode[1] == 'backspace':  # Check if the key pressed is backspace
 
-			self.current_idx = idx
+			print("Backspace pressed")
 
-			if (len(self.inputs[idx].text) > 0):  # If the current box is not empty, clear it
-				self.inputs[idx].text = ""
-			elif (idx > 0):  # If the current box is empty and not the first box, move focus back
-				self.inputs[idx].focus = False  # Remove focus from the current box
-				self.current_idx = self.current_idx - 1
-				self.inputs[self.current_idx].focus = True  # Set focus to the previous box
+			if len(instance.text) == 0 and idx > 0:  # If the current box is empty, move focus back
+				self.current_idx = idx - 1
+				self.inputs[self.current_idx].focus = True
 				self.inputs[self.current_idx].text = ""  # Clear the previous box
+			else:
+				instance.text = ""
 
-			return (True)  # Intercept the backspace action even if no action is needed
+			return (True)  # Intercept the backspace action
 
-		if (keycode[1] == 'enter'):  # Check if the key pressed is enter
 
-			word = self._get_current_word()
+		if keycode[1] == 'enter':  # Check if the key pressed is enter
+
+			print("Enter pressed")
+
+			word = self.get_current_word()
 
 			if (word == None):
 				popup = Popup(title='Warning', content=Label(text='Input five letters!'), size_hint=(.5, .5))
@@ -162,23 +145,5 @@ class Line:
 				self.inputManager.check_line(word)  # Call the check_line method in InputManager
 
 			return (True)  # Intercept the enter action
-
-		if (keycode[1] == 'left'):  # Check if the key pressed is left arrow
-
-			if (idx > 0):
-				self.inputs[self.current_idx - 1 ].focus = False
-				self.current_idx = idx - 1
-				self.inputs[self.current_idx].focus = True
-
-			return (True)  # Intercept the left arrow action
-
-		if (keycode[1] == 'right'):  # Check if the key pressed is right arrow
-
-			if (idx < self.n_letters - 1):
-				self.inputs[self.current_idx].focus = False
-				self.current_idx = idx + 1
-				self.inputs[self.current_idx].focus = True
-	
-			return (True)  # Intercept the right arrow action
 
 		return (False)  # Allow other keys to behave normally
