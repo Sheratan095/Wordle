@@ -25,7 +25,7 @@ class InputManager:
 		for i in range(self.n_lines):
 			self.lines[i].clear_line()  # Clear all lines and reset focus
 		self.current_line = 0
-		self.lines[0].enable_line()  # Enable the first line
+
 		Clock.schedule_once(lambda dt: self.lines[0].enable_line(), 0.1)  # Enable the first line with a slight delay
 
 	#init the lines
@@ -41,7 +41,7 @@ class InputManager:
 			self.lines[self.current_line].color_line("-1")  # word not valid
 			return
 
-		# valid word
+		# word is valid
 
 		# generate control code
 		control_code = self._generate_control_code(word)
@@ -55,7 +55,7 @@ class InputManager:
 			print("You win")
 			App.get_running_app().root.current = 'victory'
 		else:
-			# check if the word is not in the dictionary
+
 			self.lines[self.current_line].disable_line()
 
 			#skip the line
