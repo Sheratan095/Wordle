@@ -4,6 +4,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.core.window import Window
+from kivy.uix.widget import Widget
 from Globals import *
 
 # Define a screen for the main menu that inherits from Kivy's Screen class.
@@ -17,7 +18,6 @@ class MainMenuScreen(Screen):
 
 		title = Label(text="Welcome to Wordle", font_size = '28sp', bold = True)
 		layout.add_widget(title)
-
 
 		btn = Button(text="Start", size_hint=(0.5, 0.2), pos_hint={'center_x': 0.5})
 		btn.bind(on_press=self._on_btn_press)
@@ -50,8 +50,18 @@ class GameScreen(Screen):
 	def __init__(self, **kwargs):
 		super().__init__(**kwargs)
 
+		layout = BoxLayout(orientation='vertical', spacing=10)
 		self.grid = MyGridLayout()
-		self.add_widget(self.grid)
+		self.grid.size_hint_y = 0.9
+		label = Label(text="Please, don't use your mouse :)", bold=True, size_hint_y=0.05)
+		credit_title = Label(text="Created by Marco Ceccarelli and Caroline Wannheden", size_hint_y=0.03, font_size='11sp')
+		layout.add_widget(self.grid)
+		layout.add_widget(label)
+		layout.add_widget(credit_title)
+		spacer = Widget(size_hint_y=0.01)
+		layout.add_widget(spacer)
+		
+		self.add_widget(layout)
 
 		# don't need to beacause 
 		Window.bind(on_pre_enter=self.on_pre_enter)
