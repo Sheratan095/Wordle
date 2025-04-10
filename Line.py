@@ -59,7 +59,7 @@ class Line:
 
 		# it limits the number of letters to 1 truncate the string when the user types more than 1 letter
 		if (len(value) > 1):
-			instance.text = value[:1]
+			instance.text = value[1]
 
 	# Compose the word from the letters in the line
 	def _get_current_word(self):
