@@ -18,10 +18,3 @@ class MyGridLayout(GridLayout):
 	
 	def start_game(self, target_word):
 		self.inputManager.start_game(target_word)
-		
-class WordleApp(App):
-	def build(self):
-		return (MyGridLayout())
-	
-if __name__ == '__main__':
-	WordleApp().run()

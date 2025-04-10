@@ -55,7 +55,7 @@ class InputManager:
 			print("You win")
 			App.get_running_app().root.current = 'victory'
 		else:
-			# check if the word is not in the dictionary
+
 			self.lines[self.current_line].disable_line()
 
 			#skip the line

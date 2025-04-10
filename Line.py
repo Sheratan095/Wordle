@@ -20,12 +20,6 @@ class Line:
 		for i in range(n_letters):
 			# Create a TextInput widget for each letter, disabled by default
 			text_box = TextInput(multiline=False, disabled=True, focus=False, halign="center", font_size="24sp", size_hint = (None, None), width=60, height=60, padding_y = [15, 15])
-			
-			# Disable mouse clicks on the TextInput
-			def disable_mouse_click(instance, touch):
-				return (True)  # Intercept and stop the touch event
-
-			text_box.on_touch_down = lambda touch, instance=text_box: disable_mouse_click(instance, touch)  # Properly pass the `touch` argument
 
 			# Use a wrapper function to handle key_down events
 			def key_down_wrapper(window, keycode, text, modifiers, idx=i):
