@@ -8,10 +8,9 @@ from Globals import *
 class InputManager:
 
 	#n_lines is the number of tries
-	def __init__(self, n_lines, n_letters, layout):
-		self.lines = [None] * n_lines  # Creates a list with n_lines empty slots
-		self.n_lines = n_lines
-		self.n_letters = n_letters
+	def __init__(self, layout):
+		self.n_lines = n_tries
+		self.lines = [None] * self.n_lines  # Creates a list with n_lines empty slots
 		self.layout = layout
 		self.current_line = 0
 		self._create_lines()
@@ -31,7 +30,7 @@ class InputManager:
 	#init the lines
 	def _create_lines(self):
 		for i in range(self.n_lines):  # Loop through all indexes
-			line = Line(self.layout, self.n_letters, self)
+			line = Line(self.layout, word_len, self)
 			self.lines[i] = line  # Store the Line instance
 
 	def check_line(self, word):
@@ -81,7 +80,7 @@ class InputManager:
 		# contains the letters from the target word that aren't in input
 		not_found = []
 
-		for i in range(self.n_letters):
+		for i in range(word_len):
 			# match = 0 GREEN
 			if (self.target_word[i] == word[i]):
 				control_code += '0'
@@ -89,7 +88,7 @@ class InputManager:
 				control_code += '2' # not match = 2 YELLOW
 				not_found.append(self.target_word[i])
 
-		for i in range(self.n_letters):
+		for i in range(word_len):
 
 			if (control_code[i] == '2'):
 

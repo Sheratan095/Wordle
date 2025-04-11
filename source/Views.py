@@ -51,8 +51,9 @@ class GameScreen(Screen):
 		super().__init__(**kwargs)
 
 		layout = BoxLayout(orientation='vertical', spacing=10)
+
 		self.grid = MyGridLayout()
-		self.grid.size_hint_y = 0.9
+
 		label = Label(text="Please, don't use your mouse :)", bold=True, size_hint_y=0.05)
 		credit_title = Label(text="Created by Marco Ceccarelli and Caroline Wannheden", size_hint_y=0.03, font_size='11sp')
 		layout.add_widget(self.grid)

@@ -1,3 +1,6 @@
 from Dictionary import Dictionary
 
-global_dictionary = Dictionary(5)
+n_tries = 6
+word_len = 5
+
+global_dictionary = Dictionary(word_len)
