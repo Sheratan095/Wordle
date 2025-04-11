@@ -15,9 +15,6 @@ class WordleApp(App):
 
 	def build(self, dictionary_file = "test.txt"):
 
-		# load the dictionary
-		global_dictionary.load_from_file(dictionary_file)
-
 	 	# Create a ScreenManager with a fade transition effect between screens.
 		sm = ScreenManager(transition=FadeTransition())
 
