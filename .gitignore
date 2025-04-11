@@ -1,4 +1,7 @@
 *.pyc
 *.pyo
-__pycache__/
+source/__pycache__/
 kivy_env/
+*.spec
+build/
+dist/

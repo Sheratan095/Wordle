@@ -13,13 +13,16 @@ env:
 
 # Run the application using Wordle.py.
 run:
-	kivy_env/bin/python Wordle.py
+	kivy_env/bin/python source/Wordle.py
 
 # Clean up temporary files such as __pycache__ directories.
 clean:
-	@find . -type d -name "__pycache__" -exec rm -rf {} +
+	rm -rf source/__pycache__/
 
 fclean: clean
 	rm -fr ./kivy_env
+	rm -fr build/
+	rm -fr dist/
+	rm -f *.spec
 
 re: fclean all
