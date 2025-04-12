@@ -1,5 +1,6 @@
 import json
 from Dictionary import Dictionary
+from TextInputParameters import TextInputParameters
 
 
 # Open and read the JSON file
@@ -12,6 +13,16 @@ with open("config.json", "r") as file:  # Replace with your JSON file name
 source_file = data["source_file"]
 word_len = data["word_length"]
 n_tries = data["number_of_tries"]
+
+
+# Retrieve parameters for the text input
+params = data["text_input_paramters"]
+text_input_params = TextInputParameters(
+	width=params["width"],
+	height=params["height"],
+	font_size=params["font_size"],
+	padding_y=params["padding_y"]
+)
 
 global_dictionary = Dictionary(word_len)
 # load the dictionary

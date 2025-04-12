@@ -6,6 +6,7 @@ from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from kivy.core.window import Window
+from Globals import *
 
 class Line:
 
@@ -19,7 +20,12 @@ class Line:
 
 		for i in range(n_letters):
 			# Create a TextInput widget for each letter, disabled by default
-			text_box = TextInput(multiline=False, disabled=True, focus=False, halign="center", font_size="24sp", size_hint = (None, None), width=60, height=60, padding_y = [15, 15])
+			text_box = TextInput(multiline=False, disabled=True, focus=False,
+				halign="center",
+				font_size=text_input_params.font_size,
+				size_hint = (None, None),
+				width=text_input_params.width, height=text_input_params.height,
+				padding_y = [text_input_params.padding_y, text_input_params.padding_y])
 
 			# Use a wrapper function to handle key_down events
 			def key_down_wrapper(window, keycode, text, modifiers, idx=i):

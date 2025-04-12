@@ -1,5 +1,13 @@
 {
 	"source_file": "vocabularies/words.txt",
 	"word_length": 5,
-	"number_of_tries": 6
+	"number_of_tries": 6,
+
+	"text_input_paramters":
+	{
+		"width": 111,
+		"height": 111,
+		"font_size": "30sp",
+		"padding_y": 25
+	}
 }
