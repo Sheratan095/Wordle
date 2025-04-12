@@ -3,6 +3,10 @@
 	"word_length": 5,
 	"number_of_tries": 6,
 
+	"credits": "Created by Marco Ceccarelli and Caroline Wannheden",
+	"credits_font_size": "20sp",
+	"credits_color": "#ffffff",
+
 	"text_input_paramters":
 	{
 		"width": 111,

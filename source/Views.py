@@ -55,7 +55,12 @@ class GameScreen(Screen):
 		self.grid = MyGridLayout()
 
 		label = Label(text="Please, don't use your mouse :)", bold=True, size_hint_y=0.05)
-		credit_title = Label(text="Created by Marco Ceccarelli and Caroline Wannheden", size_hint_y=0.03, font_size='11sp')
+
+		credit_title = Label(text=credits,
+			size_hint_y=0.03,
+			font_size=credits_font_size,
+			color=credits_color,)
+
 		layout.add_widget(self.grid)
 		layout.add_widget(label)
 		layout.add_widget(credit_title)

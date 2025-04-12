@@ -14,6 +14,10 @@ source_file = data["source_file"]
 word_len = data["word_length"]
 n_tries = data["number_of_tries"]
 
+credits = data["credits"]
+credits_font_size = data["credits_font_size"]
+credits_color = data["credits_color"]
+
 
 # Retrieve parameters for the text input
 params = data["text_input_paramters"]
