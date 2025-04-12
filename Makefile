@@ -15,6 +15,8 @@ run: env
 	@echo "$(BLUE)[$(NAME)]:\t RUN$(RESET)"
 	kivy_env/bin/python source/Wordle.py
 
+build: env
+
 clean:
 	@rm -rf source/__pycache__/
 	@echo "$(RED)[$(NAME)]:\t CLEAN$(RESET)"
