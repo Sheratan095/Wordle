@@ -1,10 +1,14 @@
 {
+	"icon": "assets/icon.ico",
+
 	"source_file": "vocabularies/words.txt",
+
+
 	"word_length": 5,
 	"number_of_tries": 6,
 
 	"credits": "Created by Marco Ceccarelli and Caroline Wannheden",
-	"credits_font_size": "20sp",
+	"credits_font_size": "10sp",
 	"credits_color": "#ffffff",
 
 	"text_input_paramters":

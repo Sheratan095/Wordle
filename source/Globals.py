@@ -9,6 +9,8 @@ from TextInputParameters import TextInputParameters
 with open("config.json", "r") as file:  # Replace with your JSON file name
 	data = json.load(file)
 
+icon = data["icon"]
+
 # Retrieve properties
 source_file = data["source_file"]
 word_len = data["word_length"]
