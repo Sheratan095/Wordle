@@ -139,6 +139,9 @@ class DefeatScreen(Screen):
 		btn.bind(on_press=self._restart_game)
 		layout.add_widget(btn)
 
+		self.word = Label(text="The word was: ", font_size = '20sp', bold = True)
+		layout.add_widget(self.word)
+
 		self.add_widget(layout)
 
 		# Ensure that the key binding happens only when the victory screen is diplayed
@@ -150,6 +153,10 @@ class DefeatScreen(Screen):
 	# ensures that key binding happens only when the victory screen is about to be displayed
 	def _on_pre_enter(self, *args):
 		Window.bind(on_key_down=self._on_key_down)
+	
+		self.word.markup = True  # enable markup in the Label or TextInput
+		self.word.text = 'The word was: [color=#FF0000]{}[/color]'.format(global_dictionary.get_current_word())
+
 
 	def _on_leave(self, *args):
 			Window.unbind(on_key_down=self._on_key_down)

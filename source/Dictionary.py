@@ -78,7 +78,9 @@ class Dictionary:
 			raise Exception("Error: before calling this function, you need to load the words from a file")
 
 		index = random.randint(0, len(self.words) - 1)
+
 		return (self.words[index])
 
 	def get_current_word(self):
+		print("bluu: ", self.previous_word)
 		return (self.previous_word)
