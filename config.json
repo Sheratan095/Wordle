@@ -1,7 +1,7 @@
 {
 	"icon": "assets/icon.ico",
 
-	"source_file": "vocabularies/voc.txt",
+	"source_file": "vocabularies/italian.txt",
 
 
 	"word_length": 5,
