@@ -1,42 +1,49 @@
-# Activate virtual environment path to python.exe
-$venvPython = "kivy_env\Scripts\python.exe"  # Use \Scripts\ on Windows
+# Define venv path
+$venvPath = "kivy_env"
+$venvPython = "$venvPath\Scripts\python.exe"
 
-# Check if pyinstaller is installed
-$pyInstallerInstalled = & $venvPython -m pip show pyinstaller 2>$null
+# Step 1: Create virtual environment if it doesn't exist
+if (-Not (Test-Path $venvPath))
+{
+	Write-Host "📦 Creating virtual environment..."
+	python -m venv $venvPath
 
-if (-Not $pyInstallerInstalled) {
-	Write-Host "🔧 Installing PyInstaller in virtual environment..."
-	& $venvPython -m pip install pyinstaller
+	if (-Not (Test-Path $venvPython))
+	{
+		Write-Error "❌ Failed to create virtual environment!"
+		exit 1
+	}
+
+	Write-Host "☁️ Installing Kivy and pyInstaller into virtual environment..."
+	& $venvPython -m pip install --upgrade pip
+	& $venvPython -m pip install kivy pyinstaller
 }
-else {
-	Write-Host "✅ PyInstaller already installed."
+else
+{
+	Write-Host "✅ Virtual environment already exists."
 }
 
-# Run PyInstaller from the virtual environment
+# Step 3: Run PyInstaller
+Write-Host "🚀 Building project with PyInstaller..."
 & $venvPython -m PyInstaller `
-  --icon assets/icon.ico `
+  --icon "assets/icon.ico" `
   --onedir `
   --noconfirm `
-  --hide-console=hide-early `
+  --windowed `
   source/Wordle.py
 
-# Define output path
+# Step 4: Copy resources to output folder
 $distPath = "dist/Wordle"
 
-# Ensure destination exists
 if (-Not (Test-Path $distPath))
 {
-	Write-Error "Build failed: $distPath does not exist."
+	Write-Error "❌ Build failed: $distPath does not exist."
 	exit 1
 }
 
-# Copy config.json
+Write-Host "📁 Copying extra files..."
 Copy-Item -Path "config.json" -Destination $distPath -Force
-
-# Copy assets/ folder
 Copy-Item -Path "assets" -Destination $distPath -Recurse -Force
-
-# Copy vocabularies/ folder
 Copy-Item -Path "vocabularies" -Destination $distPath -Recurse -Force
 
-Write-Host "✅ Build complete! Files copied to $distPath"
+Write-Host "`n✅ Build complete! Executable and files ready in $distPath"
