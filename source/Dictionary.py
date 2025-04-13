@@ -79,3 +79,6 @@ class Dictionary:
 
 		index = random.randint(0, len(self.words) - 1)
 		return (self.words[index])
+
+	def get_current_word(self):
+		return (self.previous_word)
