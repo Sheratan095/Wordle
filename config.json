@@ -13,8 +13,8 @@
 
 	"text_input_paramters":
 	{
-		"width": 111,
-		"height": 111,
+		"width": 60.5,
+		"height": 60.5,
 		"font_size": "30sp",
 		"padding_y": 25
 	}
